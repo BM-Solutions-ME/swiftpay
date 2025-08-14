@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Source\Infra\Repositories\Contract;
+namespace Source\Framework\Support\Orm\Contract;
 
 use Source\Domain\Contracts\PersistableEntityInterface;
 

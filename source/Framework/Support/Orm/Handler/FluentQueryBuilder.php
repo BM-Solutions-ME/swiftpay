@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Source\Infra\Repositories\Handler;
+namespace Source\Framework\Support\Orm\Handler;
 
 use PDO;
 use Source\Domain\Attributes\Column;
-use Source\Infra\Repositories\Mapper\EntityMapper;
+use Source\Framework\Support\Orm\Mapper\EntityMapper;
 
 class FluentQueryBuilder
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Source\Infra\Repositories\Mapper;
+namespace Source\Framework\Support\Orm\Mapper;
 
 use DateTime;
 use ReflectionClass;

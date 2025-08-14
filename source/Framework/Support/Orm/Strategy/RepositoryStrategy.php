@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Source\Infra\Repositories\Strategy;
+namespace Source\Framework\Support\Orm\Strategy;
 
 use Source\Domain\Contracts\PersistableEntityInterface;
-use Source\Infra\Repositories\Contract\QueryableRepositoryInterface;
-use Source\Infra\Repositories\Contract\RepositoryHandlerInterface;
-use Source\Infra\Repositories\Handler\FluentQueryBuilder;
+use Source\Framework\Support\Orm\Contract\QueryableRepositoryInterface;
+use Source\Framework\Support\Orm\Contract\RepositoryHandlerInterface;
+use Source\Framework\Support\Orm\Handler\FluentQueryBuilder;
 
 readonly class RepositoryStrategy
 {

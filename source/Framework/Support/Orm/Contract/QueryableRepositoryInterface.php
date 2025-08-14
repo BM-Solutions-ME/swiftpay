@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Source\Infra\Repositories\Contract;
+namespace Source\Framework\Support\Orm\Contract;
 
-use Source\Infra\Repositories\Handler\FluentQueryBuilder;
+use Source\Framework\Support\Orm\Handler\FluentQueryBuilder;
 
 interface QueryableRepositoryInterface
 {
