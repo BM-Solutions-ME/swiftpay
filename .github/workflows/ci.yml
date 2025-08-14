@@ -1,0 +1,31 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, mysqli, exif, gd
+
+    - name: Install dependencies
+      run: composer install --ignore-platform-reqs
+
+    - name: Run PHPStan
+      run: ./vendor/bin/phpstan analyse
+
+    - name: Run tests
+      run: ./vendor/bin/phpunit --configuration phpunit.xml
