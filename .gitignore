@@ -1,0 +1,40 @@
+# Arquivos de configuração
+.env
+
+# Dependências do Composer
+/vendor/
+composer.lock
+
+/storage/
+
+# Arquivos de teste e cobertura
+/coverage/
+/phpunit.xml
+
+# Diretórios de cache, logs, e temporários
+*.log
+*.cache
+*.tmp
+
+*.sql
+
+# Arquivos de IDEs
+.vscode/
+.idea/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+*~
+
+/themes/
+
+/phpdocker/rabbitmq/
+/phpdocker/README.html
+/phpdocker/README.md
+
+/index.php
+phpinfo.php
+test.php
+
+phpstan-baseline.neon

@@ -1,0 +1,7 @@
+includes:
+    - phpstan.dist.neon
+    #- phpstan-baseline.neon
+
+parameters:
+    paths:
+        - source
