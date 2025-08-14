@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Source\Infra\Repositories\Handler;
+namespace Source\Infra\Database\Handler;
 
 use DateTimeInterface;
 use PDO;
 use Source\Domain\Contracts\PersistableEntityInterface;
-use Source\Infra\Repositories\Contract\QueryableRepositoryInterface;
-use Source\Infra\Repositories\Contract\RepositoryHandlerInterface;
-use Source\Infra\Repositories\Mapper\EntityMapper;
+use Source\Framework\Support\Orm\Contract\QueryableRepositoryInterface;
+use Source\Framework\Support\Orm\Contract\RepositoryHandlerInterface;
+use Source\Framework\Support\Orm\Handler\FluentQueryBuilder;
+use Source\Framework\Support\Orm\Mapper\EntityMapper;
 
 class MariaDbRepositoryHandler implements RepositoryHandlerInterface, QueryableRepositoryInterface
 {

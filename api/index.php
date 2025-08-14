@@ -68,6 +68,11 @@ $route->get("/ping", "Pong:index");
 
 // Sign Up
 
+// Authentication
+
+// Wallet
+
+// Transfer
 
 
 /**

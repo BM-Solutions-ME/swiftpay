@@ -1,8 +1,8 @@
 <?php
 
-namespace Source\Infra\Repositories\Handler;
+namespace Source\Infra\Database\Handler;
 
-use Source\Infra\Repositories\Contract\RepositoryHandlerInterface;
+use Source\Framework\Support\Orm\Contract\RepositoryHandlerInterface;
 
 class MongoRepositoryHandler implements RepositoryHandlerInterface
 {
