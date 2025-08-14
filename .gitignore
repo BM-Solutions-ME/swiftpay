@@ -1,5 +1,5 @@
 # Arquivos de configuração
-#.env
+.env
 
 # Dependências do Composer
 /vendor/
