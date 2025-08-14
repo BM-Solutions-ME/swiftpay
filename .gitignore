@@ -9,7 +9,7 @@ composer.lock
 
 # Arquivos de teste e cobertura
 /coverage/
-#/phpunit.xml
+/phpunit.xml
 
 # Diretórios de cache, logs, e temporários
 *.log
