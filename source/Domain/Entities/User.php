@@ -7,6 +7,7 @@ namespace Source\Domain\Entities;
 use DateTimeInterface;
 use Source\Domain\Attributes\Column;
 use Source\Domain\Attributes\Table;
+use Source\Domain\Contracts\PersistableEntityInterface;
 use Source\Domain\Enum\UserStatusEnum;
 use Source\Domain\Enum\UserTypeEnum;
 use Source\Domain\Exceptions\ValueObjects\CpfInvalidException;
@@ -18,7 +19,7 @@ use Source\Domain\ValueObjects\Email;
 use Source\Domain\ValueObjects\Password;
 
 #[Table(name: "users")]
-final class User
+final class User implements PersistableEntityInterface
 {
     use HydrateTrait;
 
