@@ -2,10 +2,12 @@
 
 namespace Source\Infra\Controllers\Api;
 
+use Source\Framework\Support\CallbackHandler;
+
 class Pong
 {
     public function index(): void
     {
-        echo json_encode(["pong" => true], JSON_PRETTY_PRINT);
+        (new CallbackHandler())->output(code: 200, response: ["pong" => true]);
     }
 }

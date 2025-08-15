@@ -50,85 +50,93 @@ class MariaDbRepositoryHandler implements RepositoryHandlerInterface, QueryableR
 
     private function create(object $entity): int
     {
-        $table = $this->mapper->getTableName($entity);
-        $data = $this->mapper->getColumnMappings($entity);
-        $annotations = $this->mapper->getColumnAnnotations($entity);
+        try {
+            $table = $this->mapper->getTableName($entity);
+            $data = $this->mapper->getColumnMappings($entity);
+            $annotations = $this->mapper->getColumnAnnotations($entity);
 
-        $columns = array_keys($data);
-        $placeholders = [];
-        //$placeholders = array_map(fn($c) => ":$c", $columns);
+            $columns = array_keys($data);
+            $placeholders = [];
+            //$placeholders = array_map(fn($c) => ":$c", $columns);
 
-        foreach ($data as $field => $value) {
-            $annotationsField = $annotations[$field];
+            foreach ($data as $field => $value) {
+                $annotationsField = $annotations[$field];
 
-            // verifica campos obrigatórios
-            if ($annotationsField->required && empty($value)) {
-                throw new \Exception($annotationsField->requiredMessage);
+                // verifica campos obrigatórios
+                if ($annotationsField->required && empty($value)) {
+                    throw new \Exception($annotationsField->requiredMessage);
+                }
+
+                if (!empty($value)) {
+                    //$placeholders[] = ($annotationsField->type == 'string' ? "':{$field}'" : ":{$field}");
+                    $placeholders[] = ":{$field}";
+                } else {
+                    $placeholders[] = 'NULL';
+                }
             }
 
-            if (!empty($value)) {
-                //$placeholders[] = ($annotationsField->type == 'string' ? "':{$field}'" : ":{$field}");
-                $placeholders[] = ":{$field}";
-            } else {
-                $placeholders[] = 'NULL';
+            $columnsInsertString = implode(',', $columns);
+            $placeholdersInsertString = implode(',', $placeholders);
+            $sql = "INSERT INTO {$table} ({$columnsInsertString}) VALUES ({$placeholdersInsertString})";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($this->filter($data));
+            $rowId = $this->pdo->lastInsertId();
+
+            if (!$rowId) {
+                throw new \Exception("Não foi possível realizar essa operação.");
             }
+
+            return (int)$rowId;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
-
-        $columnsInsertString = implode(',', $columns);
-        $placeholdersInsertString = implode(',', $placeholders);
-        $sql = "INSERT INTO {$table} ({$columnsInsertString}) VALUES ({$placeholdersInsertString})";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($this->filter($data));
-        $rowId = $this->pdo->lastInsertId();
-
-        if (!$rowId) {
-            throw new \Exception("Não foi possível realizar essa operação.");
-        }
-
-        return (int) $rowId;
     }
 
     private function update(object $entity): int
     {
-        $table = $this->mapper->getTableName($entity);
-        $data = $this->mapper->getColumnMappings($entity);
-        $annotations = $this->mapper->getColumnAnnotations($entity);
+        try {
+            $table = $this->mapper->getTableName($entity);
+            $data = $this->mapper->getColumnMappings($entity);
+            $annotations = $this->mapper->getColumnAnnotations($entity);
 
-        $dataSet = [];
-        $terms = [];
+            $dataSet = [];
+            $terms = [];
 
-        foreach ($data as $field => $value) {
-            $annotationsField = $annotations[$field];
+            foreach ($data as $field => $value) {
+                $annotationsField = $annotations[$field];
 
-            // verifica campos obrigatórios
-            if ($annotationsField->required && empty($value)) {
-                throw new \Exception($annotationsField->requiredMessage);
-            }
-
-            if (!$annotationsField->primaryKey) {
-                if (!empty($value)) {
-                    //$dataSet[] = ($annotationsField->type == 'string' ? "{$field} = ':{$field}'" : "{$field} = :{$field}");
-                    $dataSet[] = "{$field} = :{$field}";
-                } else {
-                    $dataSet[] = "{$field} = NULL";
+                // verifica campos obrigatórios
+                if ($annotationsField->required && empty($value)) {
+                    throw new \Exception($annotationsField->requiredMessage);
                 }
-            } else {
-                $terms[] = "{$field} = :{$field}";
+
+                if (!$annotationsField->primaryKey) {
+                    if (!empty($value)) {
+                        //$dataSet[] = ($annotationsField->type == 'string' ? "{$field} = ':{$field}'" : "{$field} = :{$field}");
+                        $dataSet[] = "{$field} = :{$field}";
+                    } else {
+                        $dataSet[] = "{$field} = NULL";
+                    }
+                } else {
+                    $terms[] = "{$field} = :{$field}";
+                }
             }
+
+            $dataSetString = implode(', ', $dataSet);
+            $termsString = implode(' AND ', $terms);
+            $sql = "UPDATE {$table} SET {$dataSetString} WHERE {$termsString}";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($this->filter($data));
+            $rowCount = $stmt->rowCount();
+
+            if ($rowCount == 0) {
+                throw new \Exception("Não foi possível realizar essa operação.");
+            }
+
+            return $rowCount;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
-
-        $dataSetString = implode(', ', $dataSet);
-        $termsString = implode(' AND ', $terms);
-        $sql = "UPDATE {$table} SET {$dataSetString} WHERE {$termsString}";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($this->filter($data));
-        $rowCount = $stmt->rowCount();
-
-        if ($rowCount == 0) {
-            throw new \Exception("Não foi possível realizar essa operação.");
-        }
-
-        return $rowCount;
     }
 
     public function save(PersistableEntityInterface $entity): object|null
@@ -193,6 +201,8 @@ class MariaDbRepositoryHandler implements RepositoryHandlerInterface, QueryableR
                 || is_float($value)
                 || (is_object($value) && method_exists($value, '__toString'))) {
                 $dataFilteredArray[$key] = filter_var((string)$value, FILTER_DEFAULT);
+            } elseif ($value instanceof \BackedEnum) {
+                $dataFilteredArray[$key] = filter_var($value->value, FILTER_DEFAULT);
             } elseif ($value instanceof DateTimeInterface) {
                 $dataFilteredArray[$key] = $value->format('Y-m-d');
             } elseif (is_int($value)) {
