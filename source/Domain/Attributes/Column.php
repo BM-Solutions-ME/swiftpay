@@ -10,7 +10,7 @@ class Column
     public function __construct(
         public string $name,
         public string $type,
-        public ?string $customConverter = null, // Exemplo: 'DateTime'
+        public ?string $cast = null,
         public ?bool $noHydrate = false,
         public ?bool $primaryKey = false,
         public ?bool $protected = false,
