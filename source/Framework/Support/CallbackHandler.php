@@ -27,6 +27,8 @@ class CallbackHandler
     */
     public function output(int $code = 200, ?array $response = null): void
     {
+        header('Content-Type: application/json; charset=UTF-8');
+
         if (!empty($response)) {
             http_response_code($code);
             $this->response = (!empty($this->response) ? array_merge($this->response, $response) : $response);
