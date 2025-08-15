@@ -54,7 +54,7 @@ class Monolog
                 $this->Logger->pushHandler(new StreamHandler(
                     (!empty($this->fileConfig) ?
                         __DIR__ . "/../{$this->fileConfig['path']}/{$this->fileConfig['filename']}" :
-                        __DIR__ . "/../storage/logs/api/log.txt"),
+                        __DIR__ . "/../../../storage/logs/api/log.txt"),
                     Logger::WARNING
                 ));
                 break;
