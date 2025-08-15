@@ -27,8 +27,12 @@ trait HydrateTrait
                     if (array_key_exists($propertyName, $data)) {
                         $value = $data[$propertyName];
 
-                        if ($column->customConverter === 'DateTime') {
+                        if ($column->cast === 'DateTime') {
                             $value = new DateTime($value);
+                        }  elseif (enum_exists($column->cast)) {
+                            /** @var \UnitEnum $instanceEnum */
+                            $instanceEnum = $column->cast;
+                            $value = $instanceEnum::from($value);
                         } else {
                             settype($value, $column->type);
                         }

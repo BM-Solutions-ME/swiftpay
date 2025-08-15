@@ -134,8 +134,12 @@ class EntityMapper
             if ($ref->hasMethod($setter)) {
                 $method = $ref->getMethod($setter);
                 if ($method->isPublic()) {
-                    if ($columnAttr[0]->newInstance()->customConverter === 'DateTime') {
+                    if ($columnAttr[0]->newInstance()->cast === 'DateTime') {
                         $value = new DateTime($value);
+                    } elseif (enum_exists($columnAttr[0]->newInstance()->cast)) {
+                        /** @var \UnitEnum $instanceEnum */
+                        $instanceEnum = $columnAttr[0]->newInstance()->cast;
+                        $value = $instanceEnum::from($value);
                     }
 
                     $method->invoke($instance, $value);
