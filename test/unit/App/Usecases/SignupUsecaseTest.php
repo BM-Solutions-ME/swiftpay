@@ -20,7 +20,7 @@ final class SignupUsecaseTest extends TestCase
             firstName: 'João',
             lastName: 'Silva',
             type: 'F',
-            document: '12345678900',
+            document: '085.880.850-11',
             email: 'joao@example.com',
             password: 'hashed123'
         );
