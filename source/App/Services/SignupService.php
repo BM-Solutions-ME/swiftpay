@@ -13,6 +13,10 @@ class SignupService
         private readonly SignupRepositoryInterface $repository
     ) {}
 
+    /**
+     * @param array<string, mixed> $data
+     * @return SignupOutputData
+    */
     public function handle(array $data): SignupOutputData
     {
         $input = new SignupInputData(

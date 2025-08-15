@@ -29,8 +29,8 @@ trait HydrateTrait
 
                         if ($column->cast === 'DateTime') {
                             $value = new DateTime($value);
-                        }  elseif (enum_exists($column->cast)) {
-                            /** @var \UnitEnum $instanceEnum */
+                        }  elseif (enum_exists((string) $column->cast)) {
+                            /** @var class-string<\BackedEnum> $instanceEnum */
                             $instanceEnum = $column->cast;
                             $value = $instanceEnum::from($value);
                         } else {

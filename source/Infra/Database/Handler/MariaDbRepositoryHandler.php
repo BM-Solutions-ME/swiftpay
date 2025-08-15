@@ -201,7 +201,7 @@ class MariaDbRepositoryHandler implements RepositoryHandlerInterface, QueryableR
                 || is_float($value)
                 || (is_object($value) && method_exists($value, '__toString'))) {
                 $dataFilteredArray[$key] = filter_var((string)$value, FILTER_DEFAULT);
-            } elseif ($value instanceof \UnitEnum) {
+            } elseif ($value instanceof \BackedEnum) {
                 $dataFilteredArray[$key] = filter_var($value->value, FILTER_DEFAULT);
             } elseif ($value instanceof DateTimeInterface) {
                 $dataFilteredArray[$key] = $value->format('Y-m-d');
