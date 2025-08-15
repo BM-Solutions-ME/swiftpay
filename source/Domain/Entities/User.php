@@ -25,7 +25,7 @@ final class User implements PersistableEntityInterface
 
     #[Column(name: "id", type: "int", primaryKey: true)]
     private ?int $id;
-    #[Column(name: "type", type: "string", required: true, requiredMessage: "O tipo de cadastro do usuário é obrigatório.")]
+    #[Column(name: "type", type: "string", cast: UserTypeEnum::class, required: true, requiredMessage: "O tipo de cadastro do usuário é obrigatório.")]
     private UserTypeEnum $type;
     #[Column(name: "first_name", type: "string", required: true, requiredMessage: "Nome é obrigatório!")]
     private string $firstName;
@@ -39,11 +39,11 @@ final class User implements PersistableEntityInterface
     private Password $password;
     #[Column(name: "level", type: "int", required: true)]
     private int $level;
-    #[Column(name: "status", type: "string", required: true)]
+    #[Column(name: "status", type: "string", cast: UserStatusEnum::class, required: true)]
     private UserStatusEnum $status;
-    #[Column(name: "created_at", type: "string", customConverter: "DateTime", protected: true)]
+    #[Column(name: "created_at", type: "string", cast: "DateTime", protected: true)]
     private ?DateTimeInterface $createdAt;
-    #[Column(name: "updated_at", type: "string", customConverter: "DateTime", protected: true)]
+    #[Column(name: "updated_at", type: "string", cast: "DateTime", protected: true)]
     private ?DateTimeInterface $updatedAt;
 
     public function getId(): ?int

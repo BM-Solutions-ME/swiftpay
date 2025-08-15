@@ -91,7 +91,7 @@ final class SignupOutputData
             "email" => $this->email,
             "level" => $this->level,
             "status" => $this->status,
-            "created_at" => $this->createdAt
+            "created_at" => (new \DateTime($this->createdAt))->format("d/m/Y H\hi")
         ];
     }
 }

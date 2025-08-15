@@ -67,6 +67,7 @@ $route->group("/api");
 $route->get("/ping", "Pong:index");
 
 // Sign Up
+$route->post("/user/register", "SignupController:register");
 
 // Authentication
 
