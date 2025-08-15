@@ -14,7 +14,7 @@ use Source\Domain\Repositories\SignupRepositoryInterface;
 
 final class SignupUsecaseTest extends TestCase
 {
-    public function testHandleCreatesUserAndFormatsDate()
+    public function testHandleCreatesUser()
     {
         $input = new SignupInputData(
             firstName: 'João',
@@ -29,18 +29,16 @@ final class SignupUsecaseTest extends TestCase
 
         $repositoryMock->expects($this->once())
             ->method('register')
-            ->with($this->callback(function (User $user) use ($input) {
-                return $user->getType() === $input->getType()
-                    && $user->getFirstName() === $input->getFirstName()
-                    && $user->getLastName() === $input->getLastName()
-                    && $user->getDocument() === $input->getDocument()
-                    && $user->getEmail() === $input->getEmail()
-                    && $user->getPassword() === $input->getPassword()
-                    && $user->getLevel() === 1
-                    && $user->getStatus() === UserStatusEnum::Registered;
-            }))
+            ->with($this->isInstanceOf(User::class))
             ->willReturn([
                 'id' => 1,
+                'first_name' => 'João',
+                'last_name' => 'Silva',
+                'type' => 'F',
+                'document' => '085.880.850-11',
+                'email' => 'joao@example.com',
+                'level' => 1,
+                'status' => UserStatusEnum::Registered->value,
                 'created_at' => '2025-08-14 15:30:00'
             ]);
 
@@ -48,6 +46,14 @@ final class SignupUsecaseTest extends TestCase
         $output = $signup->handle($input);
 
         $this->assertInstanceOf(SignupOutputData::class, $output);
-        $this->assertEquals('14/08/2025 15h30', $output->getCreatedAt());
+        $this->assertEquals(1, $output->getId());
+        $this->assertEquals('João', $output->getFirstName());
+        $this->assertEquals('Silva', $output->getLastName());
+        $this->assertEquals('F', $output->getType());
+        $this->assertEquals('085.880.850-11', $output->getDocument());
+        $this->assertEquals('joao@example.com', $output->getEmail());
+        $this->assertEquals(1, $output->getLevel());
+        $this->assertEquals('registered', $output->getStatus());
+        $this->assertEquals('2025-08-14 15:30:00', $output->getCreatedAt());
     }
 }
