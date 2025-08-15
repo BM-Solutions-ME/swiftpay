@@ -136,8 +136,8 @@ class EntityMapper
                 if ($method->isPublic()) {
                     if ($columnAttr[0]->newInstance()->cast === 'DateTime') {
                         $value = new DateTime($value);
-                    } elseif (enum_exists($columnAttr[0]->newInstance()->cast)) {
-                        /** @var \UnitEnum $instanceEnum */
+                    } elseif (enum_exists((string) $columnAttr[0]->newInstance()->cast)) {
+                        /** @var class-string<\BackedEnum> $instanceEnum */
                         $instanceEnum = $columnAttr[0]->newInstance()->cast;
                         $value = $instanceEnum::from($value);
                     }
