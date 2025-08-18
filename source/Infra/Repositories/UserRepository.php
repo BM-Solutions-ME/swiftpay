@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Source\Infra\Repositories;
 
 use Source\Domain\Entities\User;
+use Source\Domain\Enum\UserStatusEnum;
 use Source\Domain\Repositories\UserRepositoryInterface;
 use Source\Framework\Core\Connect;
 use Source\Framework\Support\Orm\Strategy\RepositoryStrategy;
@@ -24,5 +25,20 @@ final class UserRepository implements UserRepositoryInterface
         }
 
         return $user;
+    }
+
+    public function validateNewAccount(int $user_id): bool
+    {
+        $repo = new RepositoryStrategy(new MariaDbRepositoryHandler(Connect::getInstance()));
+        /** @var User|null $user */
+        $user = $repo->find(User::class, $user_id);
+
+        if (empty($user)) {
+            throw new \Exception("O usuário não existe ou foi removido recentemente.");
+        }
+
+        $user->setStatus(UserStatusEnum::Active);
+        $repo->save($user);
+        return true;
     }
 }
