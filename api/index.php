@@ -70,6 +70,7 @@ $route->get("/ping", "Pong:index");
 $route->post("/user/register", "SignupController:register");
 
 // Authentication
+$route->post("/user/auth", "AuthController:index");
 
 // Wallet
 
