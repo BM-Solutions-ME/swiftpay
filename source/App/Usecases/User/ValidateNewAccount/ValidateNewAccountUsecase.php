@@ -23,10 +23,6 @@ final class ValidateNewAccountUsecase
             throw new \Exception("Não foi possível completar esta operação.");
         }
 
-        if ($input->getUserStatus() !== UserStatusEnum::Registered) {
-            throw new \Exception("O usuário já foi validado anteriormente.");
-        }
-
         return $this->repository->validateNewAccount($input->getUserId());
     }
 }

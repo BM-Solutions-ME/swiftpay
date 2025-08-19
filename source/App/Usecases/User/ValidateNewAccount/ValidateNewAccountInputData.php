@@ -20,7 +20,7 @@ final class ValidateNewAccountInputData
         /** @var array<string, mixed> $dataUserValidate */
         $dataUserValidate = (json_validate($hash) ? json_decode($hash, true) : []);
 
-        if (!in_array(["user_id", "secret"], $dataUserValidate)) {
+        if (array_diff(["user_id", "user_status", "secret"], array_keys($dataUserValidate))) {
             throw new \Exception("Ocorreu um erro inesperado.");
         }
 
