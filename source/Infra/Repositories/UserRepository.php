@@ -14,6 +14,10 @@ use Source\Infra\Database\Handler\MariaDbRepositoryHandler;
 final class UserRepository implements UserRepositoryInterface
 {
 
+    /**
+     * @param int $user_id
+     * @return User
+    */
     public function getUserById(int $user_id): User
     {
         $repo = new RepositoryStrategy(new MariaDbRepositoryHandler(Connect::getInstance()));
@@ -27,6 +31,10 @@ final class UserRepository implements UserRepositoryInterface
         return $user;
     }
 
+    /**
+     * @param int $user_id
+     * @return boolean
+    */
     public function validateNewAccount(int $user_id): bool
     {
         $repo = new RepositoryStrategy(new MariaDbRepositoryHandler(Connect::getInstance()));
@@ -35,6 +43,10 @@ final class UserRepository implements UserRepositoryInterface
 
         if (empty($user)) {
             throw new \Exception("O usuário não existe ou foi removido recentemente.");
+        }
+
+        if ($user->getStatus() !== UserStatusEnum::Registered) {
+            throw new \Exception("O usuário já foi validado anteriormente.");
         }
 
         $user->setStatus(UserStatusEnum::Active);

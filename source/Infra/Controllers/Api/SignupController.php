@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Source\Infra\Controllers\Api;
 
+use Source\App\Http\Enums\HttpStatusEnum;
 use Source\App\Services\SignupService;
 use Source\App\Services\ValidateNewAccountService;
 use Source\Framework\Support\CallbackHandler;
@@ -38,6 +39,7 @@ class SignupController
     {
         try {
             (new ValidateNewAccountService(new UserRepository()))->handle($data);
+            (new CallbackHandler())->output(code: HttpStatusEnum::OK->value, response: ["success" => true]);
         } catch (\Throwable $e) {
             (new CallbackHandler())->set(
                 $e->getCode(),
