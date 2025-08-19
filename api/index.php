@@ -68,6 +68,7 @@ $route->get("/ping", "Pong:index");
 
 // Sign Up
 $route->post("/user/register", "SignupController:register");
+$route->get("/user/validate-new-account/{userHash}", "SignupController:validateNewAccount");
 
 // Authentication
 $route->post("/user/auth", "AuthController:index");
