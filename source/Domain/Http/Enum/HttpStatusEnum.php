@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Source\App\Http\Enums;
+namespace Source\Domain\Http\Enum;
 
 enum HttpStatusEnum: int
 {
