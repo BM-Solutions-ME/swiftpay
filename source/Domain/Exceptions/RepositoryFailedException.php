@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Source\Domain\Exceptions;
 
-use Exception;
-use Throwable;
+use Source\Domain\Http\Enum\HttpStatusEnum;
+use Source\Domain\Http\HttpException;
 
-final class RepositoryFailedException extends Exception
+final class RepositoryFailedException extends HttpException
 {
-    public function __construct(string $message, int $code = 0, ?Throwable $previous = null)
+    public function __construct(string $message)
     {
-        parent::__construct($message, $code, $previous);
+        parent::__construct(
+            $message,
+            HttpStatusEnum::INTERNAL_SERVER_ERROR
+        );
     }
 }
