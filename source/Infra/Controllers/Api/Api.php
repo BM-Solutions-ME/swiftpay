@@ -5,7 +5,8 @@ namespace Source\Infra\Controllers\Api;
 use Source\App\Usecases\User\GetUserById\GetUserByIdInputData;
 use Source\App\Usecases\User\GetUserById\GetUserByIdUsecase;
 use Source\Domain\Entities\User;
-use Source\Framework\Support\CallbackHandler;
+use Source\Domain\Http\ApiResponse;
+use Source\Domain\Http\Enum\HttpStatusEnum;
 use Source\Infra\Adapters\JwtAdapter;
 use Source\Infra\Repositories\UserRepository;
 
@@ -34,22 +35,14 @@ abstract class Api
     protected function auth(): bool
     {
         if (empty($this->headers["token"])) {
-            (new CallbackHandler())->set(
-                401,
-                "unauthorized",
-                "Informe o token de acesso."
-            )->output();
+            ApiResponse::error("Informe o token de acesso.", HttpStatusEnum::UNAUTHORIZED, []);
             return false;
         }
 
         $jwt = new JwtAdapter;
 
         if (!$jwt->tokenValidate($this->headers["token"])) {
-            (new CallbackHandler())->set(
-                401,
-                "unauthorized",
-                "Access token inválido."
-            )->output();
+            ApiResponse::error("Access token inválido.", HttpStatusEnum::UNAUTHORIZED, []);
             return false;
         }
 

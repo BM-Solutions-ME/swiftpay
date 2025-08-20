@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Source\Domain\Exceptions\ValueObjects;
+namespace Source\Domain\Exceptions\Repositories;
 
 use Source\Domain\Http\Enum\HttpStatusEnum;
 use Source\Domain\Http\HttpException;
@@ -10,7 +10,7 @@ use Source\Domain\Http\HttpException;
 /**
  *
  */
-class PasswordInvalidDigitsNumber extends HttpException
+class EmailNotRegisteredException extends HttpException
 {
     /**
      * @param string $message

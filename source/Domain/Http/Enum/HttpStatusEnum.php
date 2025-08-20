@@ -6,26 +6,93 @@ namespace Source\Domain\Http\Enum;
 
 enum HttpStatusEnum: int
 {
+    // --- 1xx Informational ---
+    case CONTINUE = 100;
+    case SWITCHING_PROTOCOLS = 101;
+    case PROCESSING = 102; // WebDAV
+    case EARLY_HINTS = 103;
+
+    // --- 2xx Success ---
     case OK = 200;
     case CREATED = 201;
+    case ACCEPTED = 202;
+    case NON_AUTHORITATIVE_INFORMATION = 203;
+    case NO_CONTENT = 204;
+    case RESET_CONTENT = 205;
+    case PARTIAL_CONTENT = 206;
+    case MULTI_STATUS = 207; // WebDAV
+    case ALREADY_REPORTED = 208; // WebDAV
+    case IM_USED = 226;
+
+    // --- 3xx Redirection ---
+    case MULTIPLE_CHOICES = 300;
+    case MOVED_PERMANENTLY = 301;
+    case FOUND = 302;
+    case SEE_OTHER = 303;
+    case NOT_MODIFIED = 304;
+    case USE_PROXY = 305; // Deprecated
+    case TEMPORARY_REDIRECT = 307;
+    case PERMANENT_REDIRECT = 308;
+
+    // --- 4xx Client Errors ---
     case BAD_REQUEST = 400;
     case UNAUTHORIZED = 401;
+    case PAYMENT_REQUIRED = 402;
     case FORBIDDEN = 403;
     case NOT_FOUND = 404;
-    case UNPROCESSABLE_ENTITY = 422;
-    case INTERNAL_SERVER_ERROR = 500;
+    case METHOD_NOT_ALLOWED = 405;
+    case NOT_ACCEPTABLE = 406;
+    case PROXY_AUTHENTICATION_REQUIRED = 407;
+    case REQUEST_TIMEOUT = 408;
+    case CONFLICT = 409;
+    case GONE = 410;
+    case LENGTH_REQUIRED = 411;
+    case PRECONDITION_FAILED = 412;
+    case PAYLOAD_TOO_LARGE = 413;
+    case URI_TOO_LONG = 414;
+    case UNSUPPORTED_MEDIA_TYPE = 415;
+    case RANGE_NOT_SATISFIABLE = 416;
+    case EXPECTATION_FAILED = 417;
+    case IM_A_TEAPOT = 418; // RFC 2324
+    case MISDIRECTED_REQUEST = 421;
+    case UNPROCESSABLE_ENTITY = 422; // WebDAV
+    case LOCKED = 423; // WebDAV
+    case FAILED_DEPENDENCY = 424; // WebDAV
+    case TOO_EARLY = 425;
+    case UPGRADE_REQUIRED = 426;
+    case PRECONDITION_REQUIRED = 428;
+    case TOO_MANY_REQUESTS = 429;
+    case REQUEST_HEADER_FIELDS_TOO_LARGE = 431;
+    case UNAVAILABLE_FOR_LEGAL_REASONS = 451;
 
-    public function message(): string
+    // --- 5xx Server Errors ---
+    case INTERNAL_SERVER_ERROR = 500;
+    case NOT_IMPLEMENTED = 501;
+    case BAD_GATEWAY = 502;
+    case SERVICE_UNAVAILABLE = 503;
+    case GATEWAY_TIMEOUT = 504;
+    case HTTP_VERSION_NOT_SUPPORTED = 505;
+    case VARIANT_ALSO_NEGOTIATES = 506;
+    case INSUFFICIENT_STORAGE = 507; // WebDAV
+    case LOOP_DETECTED = 508; // WebDAV
+    case NOT_EXTENDED = 510;
+    case NETWORK_AUTHENTICATION_REQUIRED = 511;
+
+    public function description(): string
     {
-        return match($this) {
-            self::OK => 'Success',
-            self::CREATED => 'Resource created',
-            self::BAD_REQUEST => 'Bad request',
+        return match ($this) {
+            self::OK => 'OK',
+            self::CREATED => 'Created',
+            self::NO_CONTENT => 'No Content',
+            self::BAD_REQUEST => 'Bad Request',
             self::UNAUTHORIZED => 'Unauthorized',
             self::FORBIDDEN => 'Forbidden',
-            self::NOT_FOUND => 'Not found',
-            self::UNPROCESSABLE_ENTITY => 'Validation failed',
-            self::INTERNAL_SERVER_ERROR => 'Server error',
+            self::NOT_FOUND => 'Not Found',
+            self::CONFLICT => 'Conflict',
+            self::INTERNAL_SERVER_ERROR => 'Internal Server Error',
+            self::SERVICE_UNAVAILABLE => 'Service Unavailable',
+            self::GATEWAY_TIMEOUT => 'Gateway Timeout',
+            default => 'HTTP Status ' . $this->value,
         };
     }
 }
