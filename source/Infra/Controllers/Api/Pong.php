@@ -2,12 +2,12 @@
 
 namespace Source\Infra\Controllers\Api;
 
-use Source\Framework\Support\CallbackHandler;
+use Source\Domain\Http\ApiResponse;
 
 class Pong
 {
     public function index(): void
     {
-        (new CallbackHandler())->output(code: 200, response: ["pong" => true]);
+        ApiResponse::success(["pong" => true]);
     }
 }

@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Source\Domain\Exceptions\ValueObjects;
 
-use Exception;
-use Throwable;
+use Source\Domain\Http\Enum\HttpStatusEnum;
+use Source\Domain\Http\HttpException;
 
-class CnpjInvalidException extends Exception
+class CnpjInvalidException extends HttpException
 {
-    public function __construct(string $message, int $code = 0, ?Throwable $previous = null)
+    public function __construct(string $message)
     {
-        parent::__construct($message, $code, $previous);
+        parent::__construct(
+            $message,
+            HttpStatusEnum::BAD_REQUEST
+        );
     }
 }

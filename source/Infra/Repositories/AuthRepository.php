@@ -6,6 +6,9 @@ namespace Source\Infra\Repositories;
 
 use Exception;
 use Source\Domain\Entities\User;
+use Source\Domain\Exceptions\Repositories\AuthBlockedUserStatusException;
+use Source\Domain\Exceptions\Repositories\EmailNotRegisteredException;
+use Source\Domain\Exceptions\Repositories\PasswordIncorrectException;
 use Source\Domain\Repositories\AuthRepositoryInterface;
 use Source\Framework\Core\Connect;
 use Source\Framework\Support\Orm\Strategy\RepositoryStrategy;
@@ -26,11 +29,11 @@ final class AuthRepository implements AuthRepositoryInterface
             ->get();
 
         if (empty($user)) {
-            throw new Exception("O e-mail informado não está cadatrado.");
+            throw new EmailNotRegisteredException("O e-mail informado não está cadatrado.");
         }
 
         if (!passwd_verify($password, (string) $user->getPassword())) {
-            throw new Exception("A senha informada está incorreta.");
+            throw new PasswordIncorrectException("A senha informada está incorreta.");
         }
 
         if ($user->getStatus()->value !== "active") {
@@ -40,7 +43,7 @@ final class AuthRepository implements AuthRepositoryInterface
                 "banned" => "O usuário foi banido.",
                 "canceled" => "O usuário foi cancelado."
             };
-            throw new Exception($exceptionMessage);
+            throw new AuthBlockedUserStatusException($exceptionMessage);
         }
 
         return $user->toArray();
