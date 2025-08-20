@@ -8,7 +8,6 @@ use Source\Domain\Http\ApiResponse;
 use Source\Domain\Http\Enum\HttpStatusEnum;
 use Source\App\Services\SignupService;
 use Source\App\Services\ValidateNewAccountService;
-use Source\Domain\Http\HttpException;
 use Source\Infra\Exceptions\MapExceptionToResponse;
 use Source\Infra\Repositories\SignupRepository;
 use Source\Infra\Repositories\UserRepository;
