@@ -7,9 +7,8 @@ namespace Source\Infra\Controllers\Api;
 use Source\App\Services\AuthService;
 use Source\App\Usecases\Auth\AuthOutputData;
 use Source\Domain\Http\ApiResponse;
-use Source\Domain\Http\Enum\HttpStatusEnum;
-use Source\Domain\Http\HttpException;
 use Source\Infra\Adapters\JwtAdapter;
+use Source\Infra\Exceptions\MapExceptionToResponse;
 use Source\Infra\Repositories\AuthRepository;
 
 class AuthController
@@ -20,14 +19,14 @@ class AuthController
         try {
             /** @var AuthOutputData $authenticate */
             $authenticate = (new AuthService(new AuthRepository(), new JwtAdapter))->handle($data["email"], $data["password"]);
-            ApiResponse::success(["data" => $authenticate->toArray()]);
-        } catch (HttpException $e) {
-            ApiResponse::error($e->getMessage(), $e->getStatus(), $e->getDetails());
+            ApiResponse::success($authenticate->toArray());
         } catch (\Throwable $e) {
+            /** @var array<string, mixed> $exception */
+            $exception = MapExceptionToResponse::map($e);
             ApiResponse::error(
-                "Erro inesperado.",
-                HttpStatusEnum::BAD_REQUEST,
-                ['trace' => $e->getMessage()]
+                $exception["message"],
+                $exception["status"],
+                $exception["details"]
             );
         }
     }

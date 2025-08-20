@@ -23,7 +23,7 @@ class SignupController
     {
         try {
             $newUser = (new SignupService(new SignupRepository))->handle($data);
-            ApiResponse::success(["data" => $newUser->toArray()]);
+            ApiResponse::success($newUser->toArray());
         } catch (\Throwable $e) {
             /** @var array<string, mixed> $exception */
             $exception = MapExceptionToResponse::map($e);
