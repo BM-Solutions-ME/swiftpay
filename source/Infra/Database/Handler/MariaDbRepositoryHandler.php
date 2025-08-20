@@ -7,10 +7,14 @@ namespace Source\Infra\Database\Handler;
 use DateTimeInterface;
 use PDO;
 use Source\Domain\Contracts\PersistableEntityInterface;
+use Source\Domain\Http\ApiResponse;
+use Source\Domain\Http\Enum\HttpStatusEnum;
 use Source\Framework\Support\Orm\Contract\QueryableRepositoryInterface;
 use Source\Framework\Support\Orm\Contract\RepositoryHandlerInterface;
 use Source\Framework\Support\Orm\Handler\FluentQueryBuilder;
 use Source\Framework\Support\Orm\Mapper\EntityMapper;
+use Source\Infra\Database\Exceptions\IntegrityConstraintViolationException;
+use Source\Infra\Database\Exceptions\MapDatabaseException;
 
 class MariaDbRepositoryHandler implements RepositoryHandlerInterface, QueryableRepositoryInterface
 {
@@ -87,8 +91,8 @@ class MariaDbRepositoryHandler implements RepositoryHandlerInterface, QueryableR
             }
 
             return (int)$rowId;
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (\PDOException $e) {
+            throw new IntegrityConstraintViolationException(MapDatabaseException::map($e));
         }
     }
 
@@ -134,8 +138,8 @@ class MariaDbRepositoryHandler implements RepositoryHandlerInterface, QueryableR
             }
 
             return $rowCount;
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (\PDOException $e) {
+            throw new IntegrityConstraintViolationException(MapDatabaseException::map($e));
         }
     }
 

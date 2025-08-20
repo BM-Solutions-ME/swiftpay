@@ -2,24 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Source\Domain\Exceptions\ValueObjects;
+namespace Source\Infra\Database\Exceptions;
 
 use Source\Domain\Http\Enum\HttpStatusEnum;
 use Source\Domain\Http\HttpException;
 
-/**
- *
- */
-class PasswordInvalidDigitsNumber extends HttpException
+final class IntegrityConstraintViolationException extends HttpException
 {
-    /**
-     * @param string $message
-     */
     public function __construct(string $message)
     {
         parent::__construct(
             $message,
-            HttpStatusEnum::UNAUTHORIZED
+            HttpStatusEnum::CONFLICT // 409 é o ideal para conflitos de integridade
         );
     }
 }
