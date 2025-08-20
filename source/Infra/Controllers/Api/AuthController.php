@@ -6,8 +6,9 @@ namespace Source\Infra\Controllers\Api;
 
 use Source\App\Services\AuthService;
 use Source\App\Usecases\Auth\AuthOutputData;
-use Source\Framework\Support\CallbackHandler;
+use Source\Domain\Http\ApiResponse;
 use Source\Infra\Adapters\JwtAdapter;
+use Source\Infra\Exceptions\MapExceptionToResponse;
 use Source\Infra\Repositories\AuthRepository;
 
 class AuthController
@@ -18,14 +19,15 @@ class AuthController
         try {
             /** @var AuthOutputData $authenticate */
             $authenticate = (new AuthService(new AuthRepository(), new JwtAdapter))->handle($data["email"], $data["password"]);
-            (new CallbackHandler)->output(response: ["data" => $authenticate->toArray()]);
+            ApiResponse::success($authenticate->toArray());
         } catch (\Throwable $e) {
-            (new CallbackHandler)->set(
-                $e->getCode(),
-                "error",
-                $e->getMessage()
-            )->output();
-            exit();
+            /** @var array<string, mixed> $exception */
+            $exception = MapExceptionToResponse::map($e);
+            ApiResponse::error(
+                $exception["message"],
+                $exception["status"],
+                $exception["details"]
+            );
         }
     }
 }
