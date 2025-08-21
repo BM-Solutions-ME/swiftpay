@@ -91,7 +91,7 @@ final class GetUserByIdOutputData
             "email" => $this->email,
             "level" => $this->level,
             "status" => $this->status,
-            "created_at" => (new \DateTime($this->createdAt))->format("d/m/Y H\hi")
+            "created_at" => $this->createdAt
         ];
     }
 }
