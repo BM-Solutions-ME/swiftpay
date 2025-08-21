@@ -73,6 +73,9 @@ $route->get("/user/validate-new-account/{userHash}", "SignupController:validateN
 // Authentication
 $route->post("/user/auth", "AuthController:index");
 
+// company
+$route->post("/company/insert", "CompanyController:insert");
+
 // Wallet
 
 // Transfer
