@@ -71,7 +71,7 @@ class MariaDbRepositoryHandler implements RepositoryHandlerInterface, QueryableR
                     throw new \Exception($annotationsField->requiredMessage);
                 }
 
-                if (!empty($value)) {
+                if (!empty($value) || is_int($value)) {
                     //$placeholders[] = ($annotationsField->type == 'string' ? "':{$field}'" : ":{$field}");
                     $placeholders[] = ":{$field}";
                 } else {

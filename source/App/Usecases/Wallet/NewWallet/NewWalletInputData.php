@@ -11,10 +11,12 @@ final class NewWalletInputData
 {
     /**
      * @param int $userId
+     * @param string $title
      * @param int|null $companyId
      */
     public function __construct(
         private readonly int $userId,
+        private readonly string $title,
         private readonly ?int $companyId
     ) {}
 
@@ -24,6 +26,14 @@ final class NewWalletInputData
     public function getUserId(): int
     {
         return $this->userId;
+    }
+
+    /**
+     * @return string
+    */
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     /**
