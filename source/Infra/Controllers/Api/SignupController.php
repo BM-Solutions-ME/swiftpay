@@ -22,7 +22,15 @@ class SignupController
     {
         try {
             $newUser = (new SignupService(new SignupRepository))->handle($data);
-            ApiResponse::success($newUser->toArray());
+            $responseApi = $newUser->toArray();
+            $validateUserPayload = [
+                "user_id" => $newUser->getId(),
+                "user_status" => $newUser->getStatus(),
+                "secret" => $_ENV["SECRET_HASH_API"]
+            ];
+            $responseApi["valdate_user_hash"] = base64_encode((string) json_encode($validateUserPayload));
+
+            ApiResponse::success($responseApi);
         } catch (\Throwable $e) {
             /** @var array<string, mixed> $exception */
             $exception = MapExceptionToResponse::map($e);

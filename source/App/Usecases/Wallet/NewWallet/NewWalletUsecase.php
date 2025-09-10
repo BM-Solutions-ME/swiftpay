@@ -28,6 +28,7 @@ final class NewWalletUsecase
         $newWallet = new Wallet();
         $newWallet->setUserId($input->getUserId());
         $newWallet->setCompanyId($input->getCompanyId() ?? null);
+        $newWallet->setTitle($input->getTitle());
         $newWallet->setBalance(0);
 
         return $this->repository->create($newWallet);

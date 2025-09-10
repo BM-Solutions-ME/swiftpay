@@ -9,6 +9,7 @@ final class NewWalletOutputData
     private readonly int $id;
     private readonly int $userId;
     private readonly ?int $companyId;
+    private readonly string $title;
     private readonly int $balance;
     private readonly string $createdAt;
 
@@ -20,6 +21,7 @@ final class NewWalletOutputData
         $this->id = $data["id"];
         $this->userId = $data["user_id"];
         $this->companyId = (!empty($data["company_id"]) ? $data["company_id"] : null);
+        $this->title = $data["title"];
         $this->balance = $data["balance"];
         $this->createdAt = $data["created_at"];
     }
@@ -33,6 +35,7 @@ final class NewWalletOutputData
             "id" => $this->id,
             "user_id" => $this->userId,
             "company_id" => $this->companyId,
+            "title" => $this->title,
             "balance" => $this->balance,
             "created_at" => (!empty($this->createdAt)
                 ? (new \DateTime($this->createdAt))->format('d/m/Y H\hi')
