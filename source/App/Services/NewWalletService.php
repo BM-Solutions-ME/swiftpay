@@ -29,6 +29,7 @@ final class NewWalletService
     {
         $input = new NewWalletInputData(
             $data["user_id"],
+            $data["title"],
             $data["company_id"] ?? null
         );
 

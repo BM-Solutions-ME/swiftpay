@@ -17,11 +17,13 @@ final class Wallet implements PersistableEntityInterface
     private int $userId;
     #[Column(name: "company_id", type: "int")]
     private ?int $companyId;
+    #[Column(name: "title", type: "string", required: true, requiredMessage: "O título da carteira é obrigatório.")]
+    private string $title;
     #[Column(name: "balance", type: "int")]
     private int $balance;
-    #[Column(name: "created_at", type: "string", protected: true)]
+    #[Column(name: "created_at", type: "string", cast: "DateTime", protected: true)]
     private ?\DateTimeInterface $createdAt;
-    #[Column(name: "updated_at", type: "string", protected: true)]
+    #[Column(name: "updated_at", type: "string", cast: "DateTime", protected: true)]
     private ?\DateTimeInterface $updatedAt;
 
     public function getId(): ?int
@@ -52,6 +54,16 @@ final class Wallet implements PersistableEntityInterface
     public function setCompanyId(?int $companyId): void
     {
         $this->companyId = $companyId;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
     }
 
     public function getBalance(): int
@@ -93,6 +105,7 @@ final class Wallet implements PersistableEntityInterface
             "id" => $this->id,
             "user_id" => $this->userId,
             "company_id" => $this->companyId,
+            "title" => $this->title,
             "balance" => $this->balance,
             "created_at" => (!empty($this->createdAt) ? $this->createdAt->format("Y-m-d H:i:s") : ''),
             "updated_at" => (!empty($this->updatedAt) ? $this->updatedAt->format("Y-m-d H:i:s") : '')
