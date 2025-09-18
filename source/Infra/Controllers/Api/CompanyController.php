@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Source\Infra\Controllers\Api;
 
 use Source\App\Services\CompanyRegisterService;
-use Source\Domain\Http\ApiResponse;
+use Source\Presentation\Http\ApiResponse;
 use Source\Infra\Exceptions\MapExceptionToResponse;
 use Source\Infra\Repositories\CompanyRepository;
 

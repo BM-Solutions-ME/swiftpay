@@ -2,7 +2,7 @@
 
 namespace Source\Infra\Controllers\Api;
 
-use Source\Domain\Http\ApiResponse;
+use Source\Presentation\Http\ApiResponse;
 
 class Pong
 {
