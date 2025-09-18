@@ -115,7 +115,7 @@ class MariaDbRepositoryHandler implements RepositoryHandlerInterface, QueryableR
                 }
 
                 if (!$annotationsField->primaryKey) {
-                    if (!empty($value)) {
+                    if (!empty($value) || is_int($value)) {
                         //$dataSet[] = ($annotationsField->type == 'string' ? "{$field} = ':{$field}'" : "{$field} = :{$field}");
                         $dataSet[] = "{$field} = :{$field}";
                     } else {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Source\App\Services;
+namespace Source\App\Services\Wallet;
 
 use Source\App\Usecases\Wallet\NewWallet\NewWalletInputData;
 use Source\App\Usecases\Wallet\NewWallet\NewWalletOutputData;
