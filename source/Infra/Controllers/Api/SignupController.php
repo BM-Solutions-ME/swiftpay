@@ -32,12 +32,11 @@ class SignupController
 
             ApiResponse::success($responseApi);
         } catch (\Throwable $e) {
-            /** @var array<string, mixed> $exception */
             $exception = MapExceptionToResponse::map($e);
             ApiResponse::error(
-                $exception["message"],
-                $exception["status"],
-                $exception["details"]
+                $exception->message,
+                $exception->status,
+                $exception->details
             );
         }
     }
