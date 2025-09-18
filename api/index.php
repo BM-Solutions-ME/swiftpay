@@ -77,6 +77,9 @@ $route->post("/user/auth", "AuthController:index");
 $route->post("/company/insert", "CompanyController:insert");
 
 // Wallet
+$route->post("/wallet/all", "WalletController:all");
+$route->get("/wallet/store/{wallet_id}", "WalletController:store");
+$route->post("/wallet/balance","WalletController:balance");
 $route->post("/wallet/create", "WalletController:create");
 
 // Transfer
