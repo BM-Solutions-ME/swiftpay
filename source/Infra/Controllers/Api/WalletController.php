@@ -38,12 +38,11 @@ class WalletController extends Api
                 ? $dataFiltered["user_id"] : $this->user->getId());
             ApiResponse::success((new ListUserWalletsService(new WalletRepository))->handle($dataFiltered));
         } catch (\Throwable $e) {
-            /** @var array<string, mixed> $exception */
             $exception = MapExceptionToResponse::map($e);
             ApiResponse::error(
-                $exception["message"],
-                $exception["status"],
-                $exception["details"]
+                $exception->message,
+                $exception->status,
+                $exception->details
             );
         }
     }
@@ -58,12 +57,11 @@ class WalletController extends Api
             $dataFiltered = InputSanitizer::sanitize($data);
             ApiResponse::success((new GetWalletService(new WalletRepository))->handle($dataFiltered)->toArray());
         } catch (\Throwable $e) {
-            /** @var array<string, mixed> $exception */
             $exception = MapExceptionToResponse::map($e);
             ApiResponse::error(
-                $exception["message"],
-                $exception["status"],
-                $exception["details"]
+                $exception->message,
+                $exception->status,
+                $exception->details
             );
         }
     }
@@ -80,12 +78,11 @@ class WalletController extends Api
                 ? $dataFiltered["user_id"] : $this->user->getId());
             ApiResponse::success(["balance" => (new GetBalanceService(new WalletRepository))->handle($dataFiltered)]);
         } catch (\Throwable $e) {
-            /** @var array<string, mixed> $exception */
             $exception = MapExceptionToResponse::map($e);
             ApiResponse::error(
-                $exception["message"],
-                $exception["status"],
-                $exception["details"]
+                $exception->message,
+                $exception->status,
+                $exception->details
             );
         }
     }
@@ -102,12 +99,11 @@ class WalletController extends Api
             $newWallet = (new NewWalletService(new WalletRepository))->handle($dataFiltered);
             ApiResponse::success($newWallet->toArray());
         } catch (\Throwable $e) {
-            /** @var array<string, mixed> $exception */
             $exception = MapExceptionToResponse::map($e);
             ApiResponse::error(
-                $exception["message"],
-                $exception["status"],
-                $exception["details"]
+                $exception->message,
+                $exception->status,
+                $exception->details
             );
         }
     }

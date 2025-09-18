@@ -36,7 +36,7 @@ final class ApiResponse
     /**
      * @param string $message
      * @param HttpStatusEnum $status
-     * @param array<string, mixed> $errors
+     * @param array<int|string, mixed> $errors
      * @return void
      */
     public static function error(
