@@ -11,7 +11,7 @@ final class MappedExceptionResponse
     /**
      * @param string $message
      * @param HttpStatusEnum $status
-     * @param array<string, mixed> $details
+     * @param array<string, mixed>|list<array<string, mixed>> $details
      */
     public function __construct(
         public readonly string $message,
