@@ -12,26 +12,26 @@ final class MapExceptionToResponse
 {
     /**
      * @param \Throwable $e
-     * @return array<string, mixed>
+     * @return MappedExceptionResponse
     */
-    public static function map(\Throwable $e): array
+    public static function map(\Throwable $e): MappedExceptionResponse
     {
         return match (true) {
-            $e instanceof HttpException => [
-                'message' => $e->getMessage(),
-                'status'  => $e->getStatus(),
-                'details' => $e->getDetails()
-            ],
-            $e instanceof \PDOException => [
-                'message' => MapDatabaseException::map($e),
-                'status' => HttpStatusEnum::CONFLICT->value,
-                'details' => $e->getTrace()
-            ],
-            default => [
-                'message' => 'Erro inesperado.',
-                'status'  => HttpStatusEnum::BAD_REQUEST,
-                'details' => ['trace' => $e->getMessage()]
-            ]
+            $e instanceof HttpException => new MappedExceptionResponse(
+                $e->getMessage(),
+                $e->getStatus(),
+                $e->getDetails()
+            ),
+            $e instanceof \PDOException => new MappedExceptionResponse(
+                MapDatabaseException::map($e),
+                HttpStatusEnum::CONFLICT,
+                $e->getTrace()
+            ),
+            default => new MappedExceptionResponse(
+                'Erro inesperado.',
+                HttpStatusEnum::BAD_REQUEST,
+                ['trace' => $e->getMessage()]
+            )
         };
     }
 }
