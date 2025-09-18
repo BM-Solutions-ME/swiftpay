@@ -6,7 +6,7 @@ namespace Source\Infra\Controllers\Api;
 
 use Source\App\Services\AuthService;
 use Source\App\Usecases\Auth\AuthOutputData;
-use Source\Domain\Http\ApiResponse;
+use Source\Presentation\Http\ApiResponse;
 use Source\Infra\Adapters\JwtAdapter;
 use Source\Infra\Exceptions\MapExceptionToResponse;
 use Source\Infra\Repositories\AuthRepository;
