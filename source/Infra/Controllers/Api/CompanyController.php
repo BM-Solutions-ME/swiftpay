@@ -29,9 +29,9 @@ final class CompanyController extends Api
         } catch (\Throwable $e) {
             $exception = MapExceptionToResponse::map($e);
             ApiResponse::error(
-                $exception["message"],
-                $exception["status"],
-                $exception["details"]
+                $exception->message,
+                $exception->status,
+                $exception->details
             );
         }
     }
