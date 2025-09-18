@@ -5,7 +5,7 @@ namespace Source\Infra\Controllers\Api;
 use Source\App\Usecases\User\GetUserById\GetUserByIdInputData;
 use Source\App\Usecases\User\GetUserById\GetUserByIdUsecase;
 use Source\Domain\Entities\User;
-use Source\Domain\Http\ApiResponse;
+use Source\Presentation\Http\ApiResponse;
 use Source\Domain\Http\Enum\HttpStatusEnum;
 use Source\Infra\Adapters\JwtAdapter;
 use Source\Infra\Repositories\UserRepository;
