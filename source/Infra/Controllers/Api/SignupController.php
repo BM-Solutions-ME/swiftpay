@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Source\Infra\Controllers\Api;
 
-use Source\Domain\Http\ApiResponse;
+use Source\Presentation\Http\ApiResponse;
 use Source\Domain\Http\Enum\HttpStatusEnum;
 use Source\App\Services\SignupService;
 use Source\App\Services\ValidateNewAccountService;
