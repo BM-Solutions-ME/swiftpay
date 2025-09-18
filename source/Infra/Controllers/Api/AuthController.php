@@ -21,12 +21,11 @@ class AuthController
             $authenticate = (new AuthService(new AuthRepository(), new JwtAdapter))->handle($data["email"], $data["password"]);
             ApiResponse::success($authenticate->toArray());
         } catch (\Throwable $e) {
-            /** @var array<string, mixed> $exception */
             $exception = MapExceptionToResponse::map($e);
             ApiResponse::error(
-                $exception["message"],
-                $exception["status"],
-                $exception["details"]
+                $exception->message,
+                $exception->status,
+                $exception->details
             );
         }
     }
