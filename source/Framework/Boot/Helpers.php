@@ -47,6 +47,35 @@ function password_generate()
 
 /**
  * ##################
+ * ###   MOEDAS   ###
+ * ##################
+*/
+
+/**
+ * @param int $centavos
+ * @return string
+*/
+function toCurrency(int $centavos): string
+{
+    $value = $centavos / 100;
+    return number_format($value, 2, ",", ".");
+}
+
+/**
+ * @param string $value
+ * @return int
+*/
+function toCents(string $value): int
+{
+    if (empty($value)) {
+        return 0;
+    }
+
+    return (int) preg_replace('/\D+/', '', $value);
+}
+
+/**
+ * ##################
  * ###   STRING   ###
  * ##################
  */
