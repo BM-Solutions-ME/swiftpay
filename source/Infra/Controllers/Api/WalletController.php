@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Source\Infra\Controllers\Api;
 
+use Source\App\Services\Wallet\DepositService;
 use Source\App\Services\Wallet\GetBalanceService;
 use Source\App\Services\Wallet\GetWalletService;
 use Source\App\Services\Wallet\ListUserWalletsService;
@@ -55,7 +56,9 @@ class WalletController extends Api
     {
         try {
             $dataFiltered = InputSanitizer::sanitize($data);
-            ApiResponse::success((new GetWalletService(new WalletRepository))->handle($dataFiltered)->toArray());
+            $wallet = (new GetWalletService(new WalletRepository))->handle($dataFiltered)->toArray();
+            $wallet["balance"] = toCurrency($wallet["balance"]);
+            ApiResponse::success($wallet);
         } catch (\Throwable $e) {
             $exception = MapExceptionToResponse::map($e);
             ApiResponse::error(
@@ -98,6 +101,27 @@ class WalletController extends Api
             $dataFiltered["user_id"] = (!empty($dataFiltered["user_id"]) ? $dataFiltered["user_id"] : $this->user->getId());
             $newWallet = (new NewWalletService(new WalletRepository))->handle($dataFiltered);
             ApiResponse::success($newWallet->toArray());
+        } catch (\Throwable $e) {
+            $exception = MapExceptionToResponse::map($e);
+            ApiResponse::error(
+                $exception->message,
+                $exception->status,
+                $exception->details
+            );
+        }
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     * @return void
+    */
+    public function deposit(array $data): void
+    {
+        try {
+            $dataFiltered = InputSanitizer::sanitize($data);
+            $wallet = (new DepositService(new WalletRepository))->handle($dataFiltered)->toArray();
+            $wallet["balance"] = toCurrency($wallet["balance"]);
+            ApiResponse::success($wallet);
         } catch (\Throwable $e) {
             $exception = MapExceptionToResponse::map($e);
             ApiResponse::error(
