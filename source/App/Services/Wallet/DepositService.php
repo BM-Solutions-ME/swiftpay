@@ -26,6 +26,6 @@ final class DepositService
     public function handle(array $data): Wallet
     {
         $wallet = $this->repository->store((int) $data["wallet_id"]);
-        return $this->repository->increaseBalance($wallet->getId(), ($wallet->getBalance() + (int) $data["value"]));
+        return $this->repository->increaseBalance((int) $wallet->getId(), ($wallet->getBalance() + (int) $data["value"]));
     }
 }
