@@ -9,8 +9,8 @@ use Source\Framework\Core\Transaction;
 use Source\Framework\Support\Http;
 use Source\Framework\Support\InputSanitizer;
 use Source\Infra\Exceptions\MapExceptionToResponse;
-use Source\Infra\Repositories\AuthRepository;
 use Source\Infra\Repositories\TransferRepository;
+use Source\Infra\Repositories\UserRepository;
 use Source\Infra\Repositories\WalletRepository;
 use Source\Presentation\Http\ApiResponse;
 
@@ -31,13 +31,13 @@ final class TransferController extends Api
             $dataFiltered = InputSanitizer::sanitize($data);
             Transaction::open();
             $transferExecute = (new TransferExecuteService(
-                new AuthRepository,
+                new UserRepository(),
                 new TransferRepository,
                 new WalletRepository,
                 new Http
-            ))->handle($dataFiltered);
+            ))->handle($this->user, $dataFiltered);
             Transaction::close();
-            ApiResponse::success($transferExecute);
+            ApiResponse::success($transferExecute->toArray());
         } catch (\Throwable $e) {
             Transaction::rollback();
 
