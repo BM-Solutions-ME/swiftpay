@@ -33,19 +33,21 @@ final class TransferExecuteService
     public function handle(User $payer, array $data): MakeTransferOutput
     {
         $payee = $this->userRepo->getUserById((int) $data["payee"]);
-        $walletPayee = $this->walletRepo->store((int) $data["walletPayee"]);
-        $walletPayer = $this->walletRepo->store((int) $data["walletPayer"]);
+        $walletPayee = $this->walletRepo->store((int) $data["wallet_payee"]);
+        $walletPayer = $this->walletRepo->store((int) $data["wallet_payer"]);
         $value = (int) $data["value"];
 
         $makeTransfer = (new MakeTransferUsecase($this->transferRepo))->handle(
             new MakeTransferInput($walletPayee, $payee, $walletPayer, $payer, $value)
         );
 
+        // Subtrai valor transferido da carteira do pagador
         (new DecreaseBalanceService($this->walletRepo))->handle([
             "wallet_id" => $walletPayer->getId(),
             "value" => $value
         ]);
 
+        // Adiciona valor transferido a carteira do recebedor
         (new IncreaseBalanceService($this->walletRepo))->handle([
             "wallet_id" => $walletPayee->getId(),
             "value" => $value
