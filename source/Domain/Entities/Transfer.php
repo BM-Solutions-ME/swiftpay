@@ -9,11 +9,11 @@ use Source\Domain\Attributes\Table;
 use Source\Domain\Contracts\PersistableEntityInterface;
 use Source\Domain\Enum\TransferStatusEnum;
 
-#[Table(name: "Transfer")]
+#[Table(name: "transfer")]
 final class Transfer implements PersistableEntityInterface
 {
     #[Column(name: "id", type: "int", primaryKey: true)]
-    private ?int $id;
+    private int $id;
     #[Column(name: "wallet_sender", type: "int", required: true, requiredMessage: "Informe a carteira de onde o saldo será transferido.")]
     private int $walletSender;
     #[Column(name: "wallet_receiver", type: "int", required: true, requiredMessage: "Informa a carteira que receberá a transferência.")]
@@ -27,7 +27,7 @@ final class Transfer implements PersistableEntityInterface
     #[Column(name: "updated_at", type: "string", cast: "DateTime", protected: true)]
     private ?\DateTimeInterface $updatedAt;
 
-    public function getId(): int|null
+    public function getId(): int
     {
         return $this->id;
     }

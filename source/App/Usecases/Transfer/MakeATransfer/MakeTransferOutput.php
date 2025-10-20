@@ -20,8 +20,8 @@ final class MakeTransferOutput
         $this->id = $data["id"];
         $this->payerName = $data["payerName"] ?? '';
         $this->payeeName = $data["payeeName"] ?? '';
-        $this->value = $data["value"] ?? '';
-        $this->createdAt = $data["createdAt"] ?? '';
+        $this->value = $data["value"];
+        $this->createdAt = $data["createdAt"];
     }
 
     public function getId(): int
@@ -39,12 +39,12 @@ final class MakeTransferOutput
         return $this->payeeName;
     }
 
-    public function getValue(): string
+    public function getValue(): int
     {
         return $this->value;
     }
 
-    public function getCreatedAt(): string
+    public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
     }
@@ -59,7 +59,7 @@ final class MakeTransferOutput
             "payerName" => $this->payerName,
             "payeeName" => $this->payeeName,
             "value" => $this->value,
-            "createdAt" => (!empty($this->createdAt) ? $this->createdAt->format("d/m/Y H\hi") : "")
+            "createdAt" => $this->createdAt->format("d/m/Y H\hi")
         ];
     }
 }

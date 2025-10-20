@@ -28,7 +28,7 @@ final class MakeTransferUsecase
     public function handle(MakeTransferInput $input): MakeTransferOutput
     {
         if (!empty($input->getWalletSender()->getCompanyId())) {
-            throw new Exception("Somente pessoas físicas podem realizar transferências para outras contas.");
+            throw new Exception("Somente pessoa física pode realizar transferências.");
         }
 
         if ($input->getWalletSender()->getId() == $input->getWalletReceiver()->getId()) {
@@ -36,10 +36,10 @@ final class MakeTransferUsecase
         }
 
         $transfer = new Transfer;
-        $transfer->setWalletReceiver($input->getWalletReceiver()->getId());
-        $transfer->setWalletSender($input->getWalletSender()->getId());
+        $transfer->setWalletReceiver((int) $input->getWalletReceiver()->getId());
+        $transfer->setWalletSender((int) $input->getWalletSender()->getId());
         $transfer->setAmount($input->getValue());
-        $transfer->setStatus(TransferStatusEnum::PROCESSING);
+        $transfer->setStatus(TransferStatusEnum::COMPLETED);
 
         $makeTransfer = $this->repository->execute($transfer);
 
