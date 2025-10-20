@@ -85,7 +85,7 @@ $route->post("/wallet/deposit","WalletController:deposit");
 $route->get("/wallet/store/{wallet_id}", "WalletController:store");
 
 // Transfer
-
+$route->post("/transfer/do-transfer","TransferController:doTransfer");
 
 /**
  * ROUTE
