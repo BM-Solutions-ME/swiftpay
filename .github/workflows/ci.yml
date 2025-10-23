@@ -2,18 +2,23 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
+      - developer
   pull_request:
-    branches: [master]
+    branches:
+      - master
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
+    environment: ${{ github.ref_name == 'master' && 'production' || 'development' }}
+
     steps:
     - name: Check out repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
@@ -23,6 +28,21 @@ jobs:
 
     - name: Install dependencies
       run: composer install --ignore-platform-reqs
+
+    - name: Create .env from secrets
+      run: |
+        cat > .env <<EOF
+        ENVIRONMENT=${{ secrets.ENVIRONMENT }}
+        BASE_URL=${{ secrets.BASE_URL }}
+        DB_CONNECT_HOST=${{ secrets.DB_CONNECT_HOST }}
+        DB_CONNECT_NAME=${{ secrets.DB_CONNECT_NAME }}
+        DB_CONNECT_USER=${{ secrets.DB_CONNECT_USER }}
+        DB_CONNECT_PASS=${{ secrets.DB_CONNECT_PASS }}
+        SECRET_HASH_API=${{ secrets.SECRET_HASH_API }}
+        NEW_RELIC_API_KEY=${{ secrets.NEW_RELIC_API_KEY }}
+        NEW_RELIC_ACCOUNT_ID=${{ secrets.NEW_RELIC_ACCOUNT_ID }}
+        NEW_RELIC_APP_NAME=${{ secrets.NEW_RELIC_APP_NAME }}
+        EOF
 
     - name: Run PHPStan
       run: ./vendor/bin/phpstan analyse
