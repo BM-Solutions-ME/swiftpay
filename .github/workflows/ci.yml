@@ -31,16 +31,16 @@ jobs:
 
     - name: Create .env from secrets
       run: |
-        echo "ENVIRONMENT=${{ secrets.ENVIRONMENT }}" >> .env
-        echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
-        echo "DB_CONNECT_HOST=${{ secrets.DB_CONNECT_HOST }}" >> .env
-        echo "DB_CONNECT_NAME=${{ secrets.DB_CONNECT_NAME }}" >> .env
-        echo "DB_CONNECT_USER=${{ secrets.DB_CONNECT_USER }}" >> .env
-        echo "DB_CONNECT_PASS=${{ secrets.DB_CONNECT_PASS }}" >> .env
-        echo "SECRET_HASH_API=${{ secrets.SECRET_HASH_API }}" >> .env
-        echo "NEW_RELIC_API_KEY=${{ secrets.NEW_RELIC_API_KEY }}" >> .env
-        echo "NEW_RELIC_ACCOUNT_ID=${{ secrets.NEW_RELIC_ACCOUNT_ID }}" >> .env
-        echo "NEW_RELIC_APP_NAME=${{ secrets.NEW_RELIC_APP_NAME }}" >> .env
+        echo "ENVIRONMENT=${{secrets.ENVIRONMENT}}" >> .env
+        echo "BASE_URL=${{secrets.BASE_URL}}" >> .env
+        echo "DB_CONNECT_HOST=${{secrets.DB_CONNECT_HOST}}" >> .env
+        echo "DB_CONNECT_NAME=${{secrets.DB_CONNECT_NAME}}" >> .env
+        echo "DB_CONNECT_USER=${{secrets.DB_CONNECT_USER}}" >> .env
+        echo "DB_CONNECT_PASS=${{secrets.DB_CONNECT_PASS}}" >> .env
+        echo "SECRET_HASH_API=${{secrets.SECRET_HASH_API}}" >> .env
+        echo "NEW_RELIC_API_KEY=${{secrets.NEW_RELIC_API_KEY}}" >> .env
+        echo "NEW_RELIC_ACCOUNT_ID=${{secrets.NEW_RELIC_ACCOUNT_ID}}" >> .env
+        echo "NEW_RELIC_APP_NAME=${{secrets.NEW_RELIC_APP_NAME}}" >> .env
 
     - name: Run PHPStan
       run: ./vendor/bin/phpstan analyse
