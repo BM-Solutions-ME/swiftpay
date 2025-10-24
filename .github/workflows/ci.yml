@@ -39,6 +39,10 @@ jobs:
         DB_CONNECT_USER=${{ secrets.DB_CONNECT_USER }}
         DB_CONNECT_PASS=${{ secrets.DB_CONNECT_PASS }}
         SECRET_HASH_API=${{ secrets.SECRET_HASH_API }}
+        JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
+        JWT_DURATION=${{ secrets.JWT_DURATION }}
+        REFRESH_TOKEN_SECRET=${{ secrets.REFRESH_TOKEN_SECRET }}
+        REFRESH_TOKEN_DURATION=${{ secrets.REFRESH_TOKEN_DURATION }}
         NEW_RELIC_API_KEY=${{ secrets.NEW_RELIC_API_KEY }}
         NEW_RELIC_ACCOUNT_ID=${{ secrets.NEW_RELIC_ACCOUNT_ID }}
         NEW_RELIC_APP_NAME=${{ secrets.NEW_RELIC_APP_NAME }}
