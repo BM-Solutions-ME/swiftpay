@@ -102,8 +102,12 @@ const CONF_MAIL_OPTION_CHARSET = "utf-8";
 /*
  *  JWT
  * **/
-const JWT_SECRET_KEY = "6bd9f25b606bbcf4e34d224dffe58b62"; // secret key to jwt authenticate
-const JWT_DURATION = "P0DT30M";
+$jwtSecretKey = $_ENV["JWT_SECRET_KEY"];
+$jwtDuration = $_ENV["JWT_DURATION"];
+define("JWT_SECRET_KEY", $jwtSecretKey); // secret key to jwt authenticate
+define("JWT_DURATION", $jwtDuration);
 
-const REFRESH_TOKEN_SECRET = "test-clean-architecture";
-const REFRESH_TOKEN_DURATION = "P0DT60M";
+$refreshTokenSecret = $_ENV["REFRESH_TOKEN_SECRET"];
+$refreshTokenDuration = $_ENV["REFRESH_TOKEN_DURATION"];
+define("REFRESH_TOKEN_SECRET", $refreshTokenSecret);
+define("REFRESH_TOKEN_DURATION", $refreshTokenDuration);
