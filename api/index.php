@@ -1,60 +1,15 @@
 <?php
 
-ob_start();
-
-require __DIR__ . "/../vendor/autoload.php";
-
 /**
  * BOOTSTRAP
  */
 
+require __DIR__ . "/../vendor/autoload.php";
+
+use Source\Framework\Boot\App\AppBootstrap;
 use Source\Framework\Support\Router\Router;
-use Source\Framework\Support\Monolog;
 
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Expose-Headers: Content-Length, X-JSON");
-header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Accept-Language, X-Authorization, action, email, password, token, credential");
-header('Access-Control-Max-Age: 86400');
-if ($_SERVER["REQUEST_METHOD"] == "OPTIONS") {
-    header("Access-Control-Allow-Headers: zX-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization, action, email, password, token, credential");
-    header("HTTP/1.1 200 OK");
-    return;
-}
-
-
-/*
-* ERROR REGISTER
-* **/
-function __fatalHandler()
-{
-    $error = error_get_last();
-
-    // Check if it's a core/fatal error, otherwise it's a normal shutdown
-    if ($error !== null && in_array(
-        $error['type'],
-        array(E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING,
-                E_COMPILE_ERROR, E_COMPILE_WARNING,E_RECOVERABLE_ERROR)
-    )) {
-        //    echo "<pre>fatal error:\n";
-        //    print_r($error);
-        //    echo "</pre>";
-
-        if (!empty($error['line'])) {
-            $Log = new Monolog(
-                "api",
-                "{$error['message']} [{$error['file']} linha: {$error['line']}]"
-            );
-            $Log->warning();
-            $Log->alert();
-            $Log->emergency();
-        }
-        die;
-    }
-}
-
-register_shutdown_function('__fatalHandler');
-/* END ERROR REGISTER */
+AppBootstrap::init();
 
 /**
  * API ROUTES
@@ -107,4 +62,4 @@ if ($route->error()) {
     ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 }
 
-ob_end_flush();
+AppBootstrap::shutdown();
