@@ -9,7 +9,6 @@ use Source\App\Services\Wallet\GetBalanceService;
 use Source\App\Services\Wallet\GetWalletService;
 use Source\App\Services\Wallet\ListUserWalletsService;
 use Source\App\Services\Wallet\NewWalletService;
-use Source\Framework\Support\InputSanitizer;
 use Source\Infra\Exceptions\MapExceptionToResponse;
 use Source\Infra\Repositories\WalletRepository;
 use Source\Presentation\Http\ApiResponse;
@@ -34,10 +33,9 @@ class WalletController extends Api
     public function all(array $data): void
     {
         try {
-            $dataFiltered = InputSanitizer::sanitize($data);
-            $dataFiltered["user_id"] = (!empty($dataFiltered["user_id"])
-                ? $dataFiltered["user_id"] : $this->user->getId());
-            ApiResponse::success((new ListUserWalletsService(new WalletRepository))->handle($dataFiltered));
+            $data["user_id"] = (!empty($data["user_id"])
+                ? $data["user_id"] : $this->user->getId());
+            ApiResponse::success((new ListUserWalletsService(new WalletRepository))->handle($data));
         } catch (\Throwable $e) {
             $exception = MapExceptionToResponse::map($e);
             ApiResponse::error(
@@ -55,8 +53,7 @@ class WalletController extends Api
     public function store(array $data): void
     {
         try {
-            $dataFiltered = InputSanitizer::sanitize($data);
-            $wallet = (new GetWalletService(new WalletRepository))->handle($dataFiltered)->toArray();
+            $wallet = (new GetWalletService(new WalletRepository))->handle($data)->toArray();
             $wallet["balance"] = toCurrency($wallet["balance"]);
             ApiResponse::success($wallet);
         } catch (\Throwable $e) {
@@ -76,10 +73,9 @@ class WalletController extends Api
     public function balance(array $data): void
     {
         try {
-            $dataFiltered = InputSanitizer::sanitize($data);
-            $dataFiltered["user_id"] = (!empty($dataFiltered["user_id"])
-                ? $dataFiltered["user_id"] : $this->user->getId());
-            ApiResponse::success(["balance" => (new GetBalanceService(new WalletRepository))->handle($dataFiltered)]);
+            $data["user_id"] = (!empty($data["user_id"])
+                ? $data["user_id"] : $this->user->getId());
+            ApiResponse::success(["balance" => (new GetBalanceService(new WalletRepository))->handle($data)]);
         } catch (\Throwable $e) {
             $exception = MapExceptionToResponse::map($e);
             ApiResponse::error(
@@ -97,9 +93,8 @@ class WalletController extends Api
     public function create(array $data): void
     {
         try {
-            $dataFiltered = InputSanitizer::sanitize($data);
-            $dataFiltered["user_id"] = (!empty($dataFiltered["user_id"]) ? $dataFiltered["user_id"] : $this->user->getId());
-            $newWallet = (new NewWalletService(new WalletRepository))->handle($dataFiltered);
+            $data["user_id"] = (!empty($data["user_id"]) ? $data["user_id"] : $this->user->getId());
+            $newWallet = (new NewWalletService(new WalletRepository))->handle($data);
             ApiResponse::success($newWallet->toArray());
         } catch (\Throwable $e) {
             $exception = MapExceptionToResponse::map($e);
@@ -118,8 +113,7 @@ class WalletController extends Api
     public function deposit(array $data): void
     {
         try {
-            $dataFiltered = InputSanitizer::sanitize($data);
-            $wallet = (new DepositService(new WalletRepository))->handle($dataFiltered)->toArray();
+            $wallet = (new DepositService(new WalletRepository))->handle($data)->toArray();
             $wallet["balance"] = toCurrency($wallet["balance"]);
             ApiResponse::success($wallet);
         } catch (\Throwable $e) {

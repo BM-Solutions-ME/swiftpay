@@ -7,7 +7,6 @@ namespace Source\Infra\Controllers\Api;
 use Source\App\Services\Transfer\TransferExecuteService;
 use Source\Framework\Core\Transaction;
 use Source\Framework\Support\Http;
-use Source\Framework\Support\InputSanitizer;
 use Source\Infra\Exceptions\MapExceptionToResponse;
 use Source\Infra\Repositories\TransferRepository;
 use Source\Infra\Repositories\UserRepository;
@@ -28,14 +27,13 @@ final class TransferController extends Api
     public function doTransfer(array $data): void
     {
         try {
-            $dataFiltered = InputSanitizer::sanitize($data);
             Transaction::open();
             $transferExecute = (new TransferExecuteService(
                 new UserRepository(),
                 new TransferRepository,
                 new WalletRepository,
                 new Http
-            ))->handle($this->user, $dataFiltered);
+            ))->handle($this->user, $data);
             Transaction::close();
             ApiResponse::success($transferExecute->toArray());
         } catch (\Throwable $e) {
