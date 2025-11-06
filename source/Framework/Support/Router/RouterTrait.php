@@ -2,6 +2,8 @@
 
 namespace Source\Framework\Support\Router;
 
+use Source\Framework\Support\InputSanitizer;
+
 /**
  * Trait RouterTrait
  */
@@ -65,7 +67,7 @@ trait RouterTrait
 
         if (!empty($post['_method']) && in_array($post['_method'], ["PUT", "PATCH", "DELETE"])) {
             $this->httpMethod = $post['_method'];
-            $this->data = $post;
+            $this->data = InputSanitizer::sanitize($post);
 
             unset($this->data["_method"]);
             return;
@@ -75,10 +77,10 @@ trait RouterTrait
             $data = file_get_contents('php://input', false, null, 0, $_SERVER['CONTENT_LENGTH']);
 
             if (json_validate($data)) {
-                $this->data = filter_var_array(json_decode($data, true), FILTER_DEFAULT);
+                $this->data = InputSanitizer::sanitize(json_decode($data, true));
             } else {
                 parse_str($data, $putPatch);
-                $this->data = $putPatch;
+                $this->data = InputSanitizer::sanitize($putPatch);
             }
 
             unset($this->data["_method"]);
