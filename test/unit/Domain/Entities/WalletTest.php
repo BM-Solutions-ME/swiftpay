@@ -72,6 +72,7 @@ final class WalletTest extends TestCase
     public function testShouldReturnEmptyStringsForNullDatesInArray(): void
     {
         $wallet = new Wallet();
+        $wallet->setId(10);
         $wallet->setUserId(1);
         $wallet->setTitle("Sem Data");
         $wallet->setBalance(0);

@@ -18,7 +18,7 @@ final class CompanyTest extends TestCase
         $company->setUserId(10);
         $company->setPublicName("Minha Empresa");
         $company->setLegalName("Minha Empresa LTDA");
-        $company->setDocument("12345678000199");
+        $company->setDocument("08.860.488/0001-39");
         $company->setDateFoundation("2020-05-15");
 
         $this->assertSame(1, $company->getId());
@@ -27,7 +27,7 @@ final class CompanyTest extends TestCase
         $this->assertSame("Minha Empresa LTDA", $company->getLegalName());
 
         $this->assertInstanceOf(Cnpj::class, $company->getDocument());
-        $this->assertSame("12345678000199", (string) $company->getDocument());
+        $this->assertSame("08.860.488/0001-39", (string) $company->getDocument());
         $this->assertSame("2020-05-15", $company->getDateFoundation());
     }
 
@@ -54,7 +54,7 @@ final class CompanyTest extends TestCase
         $company->setUserId(2);
         $company->setPublicName("Tech Corp");
         $company->setLegalName("Tech Corp Soluções Digitais LTDA");
-        $company->setDocument("98765432000155");
+        $company->setDocument("08.860.488/0001-39");
         $company->setDateFoundation("2015-10-10");
 
         $createdAt = new \DateTimeImmutable("2025-11-07 10:00:00");
@@ -70,7 +70,7 @@ final class CompanyTest extends TestCase
         $this->assertSame(2, $array["user_id"]);
         $this->assertSame("Tech Corp", $array["public_name"]);
         $this->assertSame("Tech Corp Soluções Digitais LTDA", $array["legal_name"]);
-        $this->assertSame("98765432000155", $array["document"]);
+        $this->assertSame("08.860.488/0001-39", $array["document"]);
         $this->assertSame("2015-10-10", $array["date_foundation"]);
         $this->assertSame("2025-11-07 10:00:00", $array["created_at"]);
         $this->assertSame("2025-11-07 11:00:00", $array["updated_at"]);
@@ -82,7 +82,7 @@ final class CompanyTest extends TestCase
         $company->setUserId(1);
         $company->setPublicName("Empresa Sem Datas");
         $company->setLegalName("Empresa LTDA");
-        $company->setDocument("11222333000144");
+        $company->setDocument("08.860.488/0001-39");
 
         $array = $company->toArray();
 
