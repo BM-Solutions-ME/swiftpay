@@ -74,8 +74,15 @@ final class WalletTest extends TestCase
         $wallet = new Wallet();
         $wallet->setId(10);
         $wallet->setUserId(1);
+        $wallet->setCompanyId(null);
         $wallet->setTitle("Sem Data");
         $wallet->setBalance(0);
+
+        $createdAt = new \DateTimeImmutable("2025-11-07 14:00:00");
+        $updatedAt = new \DateTimeImmutable("2025-11-07 15:00:00");
+
+        $wallet->setCreatedAt($createdAt);
+        $wallet->setUpdatedAt($updatedAt);
 
         $array = $wallet->toArray();
 

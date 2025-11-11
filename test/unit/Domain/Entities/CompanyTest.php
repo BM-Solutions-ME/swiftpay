@@ -79,10 +79,18 @@ final class CompanyTest extends TestCase
     public function testShouldReturnEmptyStringsForNullDatesInArray(): void
     {
         $company = new Company();
+        $company->setId(7);
         $company->setUserId(1);
         $company->setPublicName("Empresa Sem Datas");
         $company->setLegalName("Empresa LTDA");
         $company->setDocument("08.860.488/0001-39");
+        $company->setDateFoundation("2015-10-10");
+
+        $createdAt = new \DateTimeImmutable("2025-11-07 10:00:00");
+        $updatedAt = new \DateTimeImmutable("2025-11-07 11:00:00");
+
+        $company->setCreatedAt($createdAt);
+        $company->setUpdatedAt($updatedAt);
 
         $array = $company->toArray();
 
@@ -93,7 +101,7 @@ final class CompanyTest extends TestCase
     public function testShouldThrowExceptionForInvalidCnpj(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("CNPJ inválido");
+        $this->expectExceptionMessage("O cnpj é inválido.");
 
         $company = new Company();
         $company->setDocument("abc123"); // inválido
