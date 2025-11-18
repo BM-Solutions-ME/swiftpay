@@ -6,6 +6,7 @@ namespace unit\Domain\Entities;
 
 use PHPUnit\Framework\TestCase;
 use Source\Domain\Entities\Company;
+use Source\Domain\Exceptions\ValueObjects\CnpjInvalidException;
 use Source\Domain\ValueObjects\Cnpj;
 
 final class CompanyTest extends TestCase
@@ -85,12 +86,8 @@ final class CompanyTest extends TestCase
         $company->setLegalName("Empresa LTDA");
         $company->setDocument("08.860.488/0001-39");
         $company->setDateFoundation("2015-10-10");
-
-        $createdAt = new \DateTimeImmutable("2025-11-07 10:00:00");
-        $updatedAt = new \DateTimeImmutable("2025-11-07 11:00:00");
-
-        $company->setCreatedAt($createdAt);
-        $company->setUpdatedAt($updatedAt);
+        $company->setCreatedAt(null);
+        $company->setUpdatedAt(null);
 
         $array = $company->toArray();
 
@@ -100,7 +97,7 @@ final class CompanyTest extends TestCase
 
     public function testShouldThrowExceptionForInvalidCnpj(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(CnpjInvalidException::class);
         $this->expectExceptionMessage("O cnpj é inválido.");
 
         $company = new Company();
