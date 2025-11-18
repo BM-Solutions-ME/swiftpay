@@ -26,7 +26,7 @@ final class CnpjTest extends TestCase
         $formatted = "45.723.174/0001-10";
         $cnpj = new Cnpj($formatted);
 
-        $this->assertSame("45723174000110", (string)$cnpj);
+        $this->assertSame("45.723.174/0001-10", (string)$cnpj);
     }
 
     public function testShouldThrowExceptionForInvalidCnpj(): void
@@ -64,6 +64,6 @@ final class CnpjTest extends TestCase
     public function testToStringReturnsRawCnpj(): void
     {
         $cnpj = new Cnpj("45.723.174/0001-10");
-        $this->assertSame("45723174000110", (string)$cnpj);
+        $this->assertSame("45.723.174/0001-10", (string)$cnpj);
     }
 }
