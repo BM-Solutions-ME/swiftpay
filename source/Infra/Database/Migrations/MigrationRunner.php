@@ -18,7 +18,7 @@ class MigrationRunner
             $this->driver->createMigrationTable();
         }
 
-        $migrationFiles = glob(__DIR__ . "/../../../../migrations/" . $this->driverName . "/*.php");
+        $migrationFiles = glob(__DIR__ . "/../../../../migrations/" . $this->driverName . "/*.php") ?: [];
 
         foreach ($migrationFiles as $file) {
             /** @var MigrationInterface $migration */
@@ -33,6 +33,46 @@ class MigrationRunner
 
     public function runDown(): void
     {
-        // limpa tudo (ex: CI)
+        // Garante que a tabela existe
+        if (!$this->driver->hasMigrationTable()) {
+            return; // Nada para remover
+        }
+
+        // Recupera todas as migrations aplicadas
+        $appliedMigrations = $this->driver->getAppliedMigrations();
+
+        if (empty($appliedMigrations)) {
+            return; // Nada para fazer
+        }
+
+        // Carrega TODOS os arquivos de migrations
+        $migrationFiles = glob(__DIR__ . "/../../../../migrations/" . $this->driverName . "/*.php") ?: [];
+
+        // Indexa os arquivos por ID da migration
+        $migrationsById = [];
+
+        foreach ($migrationFiles as $file) {
+            /** @var MigrationInterface $migration */
+            $migration = require $file;
+            $migrationsById[$migration->id()] = $migration;
+        }
+
+        // Ordena em ordem reversa (rollback correto)
+        rsort($appliedMigrations);
+
+        foreach ($appliedMigrations as $migrationId) {
+            // Só processa se houver o arquivo correspondente
+            if (!isset($migrationsById[$migrationId])) {
+                continue; // Arquivo removido? Ignorar.
+            }
+
+            $migration = $migrationsById[$migrationId];
+
+            // Executa o rollback
+            $migration->down($this->driver);
+
+            // Marca como removida
+            $this->driver->unmarkMigrationAsApplied($migrationId);
+        }
     }
 }
