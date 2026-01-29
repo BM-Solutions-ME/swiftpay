@@ -13,10 +13,10 @@ use Source\Domain\Entities\Wallet;
 interface WalletRepositoryInterface
 {
     /**
-     * @param array<string, mixed> $data
+     * @param int $data
      * @return list<array<string, mixed>>
     */
-    public function all(array $data): array;
+    public function all(int $userId): array;
 
     /**
      * @param int $walletId

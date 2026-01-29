@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Source\Infra\Controllers\Api;
 
+use Source\App\Usecases\Signup\SignupInputData;
+use Source\App\Usecases\Signup\SignupUsecase;
+use Source\App\Usecases\User\ValidateNewAccount\ValidateNewAccountInputData;
+use Source\App\Usecases\User\ValidateNewAccount\ValidateNewAccountUsecase;
 use Source\Presentation\Http\ApiResponse;
 use Source\Domain\Http\Enum\HttpStatusEnum;
-use Source\App\Services\SignupService;
-use Source\App\Services\ValidateNewAccountService;
 use Source\Infra\Exceptions\MapExceptionToResponse;
 use Source\Infra\Repositories\SignupRepository;
 use Source\Infra\Repositories\UserRepository;
@@ -21,7 +23,16 @@ class SignupController
     public function register(array $data): void
     {
         try {
-            $newUser = (new SignupService(new SignupRepository))->handle($data);
+            $input = new SignupInputData(
+                $data["first_name"],
+                 $data["last_name"],
+                     $data["type"],
+                 $data["document"],
+                    $data["email"],
+                 $data["password"]
+            );
+
+            $newUser = (new SignupUsecase(new SignupRepository))->handle($input);
             $responseApi = $newUser->toArray();
             $validateUserPayload = [
                 "user_id" => $newUser->getId(),
@@ -48,7 +59,11 @@ class SignupController
     public function validateNewAccount(array $data): void
     {
         try {
-            (new ValidateNewAccountService(new UserRepository()))->handle($data);
+            if (empty($data["userHash"])) {
+                throw new \Exception("Link de validação inválido.");
+            }
+            $input = new ValidateNewAccountInputData($data["userHash"]);
+            (new ValidateNewAccountUsecase(new UserRepository()))->validate($input);
             ApiResponse::success([]);
         } catch (\Throwable $e) {
             ApiResponse::error(
