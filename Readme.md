@@ -59,7 +59,7 @@ Certifique-se de ter os seguintes softwares instalados:
 - **Imagem Customizada**: `phpdocker/php-fpm`
 - **Volumes**:
   - Montagem do diretório local: `.:/application`
-  - Arquivo de configuração: `./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.2/fpm/conf.d/99-overrides.ini`
+  - Arquivo de configuração: `./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.4/fpm/conf.d/99-overrides.ini`
 
 ---
 
