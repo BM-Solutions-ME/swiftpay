@@ -16,12 +16,18 @@ return new class implements MigrationInterface {
             CREATE TABLE `wallet` (
               `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
               `user_id` bigint(20) unsigned NOT NULL,
+              `company_id` bigint(20) unsigned NULL,
+              `title` varchar(255) NOT NULL,
               `balance` int(11) NOT NULL DEFAULT 0,
               `created_at` timestamp NULL DEFAULT current_timestamp(),
               `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
               PRIMARY KEY (`id`),
               KEY `fk_wallet_user` (`user_id`),
-              CONSTRAINT `fk_wallet_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE
+              CONSTRAINT `fk_wallet_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE,
+              CONSTRAINT `fk_wallet_company`
+                FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`)
+                ON UPDATE CASCADE
+                ON DELETE SET NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
         ");
     }
