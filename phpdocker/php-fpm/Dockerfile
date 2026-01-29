@@ -16,14 +16,17 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
-# Instala o agente PHP da New Relic
-RUN wget -O - https://download.newrelic.com/548C16BF.gpg | apt-key add - \
-    && echo "deb http://apt.newrelic.com/debian/ newrelic non-free" > /etc/apt/sources.list.d/newrelic.list \
-    && apt-get update \
-    && apt-get install -y newrelic-php5 \
-    && export NR_INSTALL_SILENT=1 \
-    && newrelic-install install \
-    && echo 'newrelic.license = "fa499b09bfe3d68e021430adf52f1c29FFFFNRAL"' > /etc/php/8.4/fpm/conf.d/99-newrelic.ini \
-    && echo 'newrelic.appname = "fastpay_php_docker"' >> /etc/php/8.4/fpm/conf.d/99-newrelic.ini \
-    && cp /etc/php/8.4/fpm/conf.d/99-newrelic.ini /etc/php/8.4/cli/conf.d/99-newrelic.ini \
-    && rm -rf /var/lib/apt/lists/*
+# Instala o agente PHP da New Relic manualmente
+RUN set -eux; \
+    cd /tmp; \
+    wget https://download.newrelic.com/php_agent/release/newrelic-php5-12.4.0.29-linux.tar.gz; \
+    tar -xzf newrelic-php5-12.4.0.29-linux.tar.gz; \
+    cd newrelic-php5-12.4.0.29-linux; \
+    export NR_INSTALL_SILENT=1; \
+    ./newrelic-install install; \
+    rm -rf /tmp/newrelic-*; \
+    echo 'newrelic.license = ${NEW_RELIC_LICENSE_KEY}' > /etc/php/8.4/fpm/conf.d/99-newrelic.ini; \
+    echo 'newrelic.appname = ${NEW_RELIC_APP_NAME}' >> /etc/php/8.4/fpm/conf.d/99-newrelic.ini; \
+    cp /etc/php/8.4/fpm/conf.d/99-newrelic.ini /etc/php/8.4/cli/conf.d/99-newrelic.ini
+
+

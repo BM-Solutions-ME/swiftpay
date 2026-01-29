@@ -45,6 +45,9 @@ services:
             - './phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.4/cli/conf.d/99-overrides.ini'
             - './phpdocker/php-fpm/opcache.ini:/etc/php/8.4/fpm/conf.d/10-opcache.ini'
             - './phpdocker/php-fpm/opcache.ini:/etc/php/8.4/cli/conf.d/10-opcache.ini'
+        environment:
+            - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
+            - NEW_RELIC_APP_NAME=${NEW_RELIC_APP_NAME}
         networks:
             - app_network
 

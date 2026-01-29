@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Source\Infra\Controllers\Api;
 
-use Source\App\Services\Transfer\TransferExecuteService;
+use Source\App\Usecases\Transfer\CreateTransfer\CreateTransferInput;
+use Source\App\Usecases\Transfer\ExecuteTransfer\ExecuteTransferUsecase;
 use Source\Framework\Core\Transaction;
 use Source\Framework\Support\Http;
 use Source\Infra\Exceptions\MapExceptionToResponse;
@@ -27,13 +28,15 @@ final class TransferController extends Api
     public function doTransfer(array $data): void
     {
         try {
+            $input = CreateTransferInput::fromArray($data);
+
             Transaction::open();
-            $transferExecute = (new TransferExecuteService(
+            $transferExecute = (new ExecuteTransferUsecase(
+                new TransferRepository(),
+                new WalletRepository(),
                 new UserRepository(),
-                new TransferRepository,
-                new WalletRepository,
-                new Http
-            ))->handle($this->user, $data);
+                new Http()
+            ))->handle($this->user, $input);
             Transaction::close();
             ApiResponse::success($transferExecute->toArray());
         } catch (\Throwable $e) {
