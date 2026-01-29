@@ -17,15 +17,15 @@ use Source\Infra\Database\Handler\MariaDbRepositoryHandler;
 final class WalletRepository implements WalletRepositoryInterface
 {
     /**
-     * @param array<string, mixed> $data
+     * @param int $userId
      * @return list<array<string, mixed>>
     */
-    public function all(array $data): array
+    public function all(int $userId): array
     {
         $repo = new RepositoryStrategy(new MariaDbRepositoryHandler(Connect::getInstance()));
         /** @var array<int, mixed> $wallets */
         $wallets = $repo->query(Wallet::class)
-            ->where("user_id", "=", $data["user_id"])
+            ->where("user_id", "=", $userId)
             ->get(true);
 
         $response = [];
@@ -64,7 +64,7 @@ final class WalletRepository implements WalletRepositoryInterface
      */
     public function balanceAll(int $userId): int
     {
-        $wallets = $this->all(["user_id" => $userId]);
+        $wallets = $this->all($userId);
 
         if (empty($wallets)) {
             return 0;

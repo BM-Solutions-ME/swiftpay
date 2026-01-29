@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Source\Infra\Controllers\Api;
 
-use Source\App\Services\AuthService;
-use Source\App\Usecases\Auth\AuthOutputData;
+use Source\App\Usecases\Auth\AuthInputData;
+use Source\App\Usecases\Auth\AuthUsecase;
+use Source\Domain\ValueObjects\Email;
+use Source\Domain\ValueObjects\Password;
 use Source\Presentation\Http\ApiResponse;
 use Source\Infra\Adapters\JwtAdapter;
 use Source\Infra\Exceptions\MapExceptionToResponse;
@@ -17,8 +19,14 @@ class AuthController
     public function index(array $data): void
     {
         try {
-            /** @var AuthOutputData $authenticate */
-            $authenticate = (new AuthService(new AuthRepository(), new JwtAdapter))->handle($data["email"], $data["password"]);
+            $input = new AuthInputData(
+                new Email($data["email"]), 
+                $data["password"]
+            );
+            $authenticate = (new AuthUsecase(
+                new AuthRepository, 
+                 new JwtAdapter))
+                 ->handle($input);
             ApiResponse::success($authenticate->toArray());
         } catch (\Throwable $e) {
             $exception = MapExceptionToResponse::map($e);

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Source\Infra\Controllers\Api;
 
-use Source\App\Services\CompanyRegisterService;
+use Source\App\Usecases\Company\CompanyRegister\CompanyRegisterInputData;
+use Source\App\Usecases\Company\CompanyRegister\CompanyRegisterUsecase;
 use Source\Presentation\Http\ApiResponse;
 use Source\Infra\Exceptions\MapExceptionToResponse;
 use Source\Infra\Repositories\CompanyRepository;
@@ -24,7 +25,14 @@ final class CompanyController extends Api
     {
         try {
             $data["user_id"] = (!empty($data["user_id"]) ? $data["user_id"] : $this->user->getId());
-            $newCompany = (new CompanyRegisterService(new CompanyRepository))->handle($data);
+            $input = new CompanyRegisterInputData(
+                $data["user_id"],
+                $data["public_name"],
+                $data["legal_name"],
+                $data["document"],
+                $data["date_foundation"]
+            );
+            $newCompany = (new CompanyRegisterUsecase(new CompanyRepository()))->handle($input);
             ApiResponse::success($newCompany->toArray());
         } catch (\Throwable $e) {
             $exception = MapExceptionToResponse::map($e);
