@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Source\Infra\Database\Migrations\MigrationInterface;
 use Source\Infra\Database\Migrations\MigrationDriverInterface;
 
@@ -12,6 +14,11 @@ return new class implements MigrationInterface {
 
     public function up(MigrationDriverInterface $driver): void
     {
+        /*
+         |-------------------------------------------------
+         | TABLE
+         |-------------------------------------------------
+         */
         $driver->execute("
             CREATE TABLE `users` (
               `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -28,14 +35,119 @@ return new class implements MigrationInterface {
               PRIMARY KEY (`id`),
               UNIQUE KEY `document` (`document`),
               UNIQUE KEY `email` (`email`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        ");
+
+        /*
+         |-------------------------------------------------
+         | TRIGGER - AFTER INSERT
+         |-------------------------------------------------
+         */
+        $driver->execute("
+            CREATE TRIGGER trg_users_ai
+            AFTER INSERT ON users
+            FOR EACH ROW
+            BEGIN
+                INSERT INTO system_logs (entity, entity_id, action, new_data)
+                VALUES (
+                    'users',
+                    NEW.id,
+                    'created',
+                    JSON_OBJECT(
+                        'type', NEW.type,
+                        'first_name', NEW.first_name,
+                        'last_name', NEW.last_name,
+                        'document', NEW.document,
+                        'email', NEW.email,
+                        'level', NEW.level,
+                        'status', NEW.status
+                    )
+                );
+            END;
+        ");
+
+        /*
+         |-------------------------------------------------
+         | TRIGGER - AFTER UPDATE
+         |-------------------------------------------------
+         */
+        $driver->execute("
+            CREATE TRIGGER trg_users_au
+            AFTER UPDATE ON users
+            FOR EACH ROW
+            BEGIN
+                INSERT INTO system_logs (entity, entity_id, action, old_data, new_data)
+                VALUES (
+                    'users',
+                    NEW.id,
+                    'updated',
+                    JSON_OBJECT(
+                        'type', OLD.type,
+                        'first_name', OLD.first_name,
+                        'last_name', OLD.last_name,
+                        'document', OLD.document,
+                        'email', OLD.email,
+                        'level', OLD.level,
+                        'status', OLD.status
+                    ),
+                    JSON_OBJECT(
+                        'type', NEW.type,
+                        'first_name', NEW.first_name,
+                        'last_name', NEW.last_name,
+                        'document', NEW.document,
+                        'email', NEW.email,
+                        'level', NEW.level,
+                        'status', NEW.status
+                    )
+                );
+            END;
+        ");
+
+        /*
+         |-------------------------------------------------
+         | TRIGGER - AFTER DELETE
+         |-------------------------------------------------
+         */
+        $driver->execute("
+            CREATE TRIGGER trg_users_ad
+            AFTER DELETE ON users
+            FOR EACH ROW
+            BEGIN
+                INSERT INTO system_logs (entity, entity_id, action, old_data)
+                VALUES (
+                    'users',
+                    OLD.id,
+                    'deleted',
+                    JSON_OBJECT(
+                        'type', OLD.type,
+                        'first_name', OLD.first_name,
+                        'last_name', OLD.last_name,
+                        'document', OLD.document,
+                        'email', OLD.email,
+                        'level', OLD.level,
+                        'status', OLD.status
+                    )
+                );
+            END;
         ");
     }
 
     public function down(MigrationDriverInterface $driver): void
     {
-        $driver->execute("
-            DROP TABLE IF EXISTS `users`;
-        ");
+        /*
+         |-------------------------------------------------
+         | DROP TRIGGERS (ordem segura)
+         |-------------------------------------------------
+         */
+        $driver->execute("DROP TRIGGER IF EXISTS trg_users_ai;");
+        $driver->execute("DROP TRIGGER IF EXISTS trg_users_au;");
+        $driver->execute("DROP TRIGGER IF EXISTS trg_users_ad;");
+
+        /*
+         |-------------------------------------------------
+         | DROP TABLE
+         |-------------------------------------------------
+         */
+        $driver->execute("DROP TABLE IF EXISTS `users`;");
     }
 };
