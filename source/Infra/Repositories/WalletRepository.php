@@ -17,7 +17,7 @@ use Source\Infra\Database\Handler\MariaDbRepositoryHandler;
 final class WalletRepository implements WalletRepositoryInterface
 {
     /**
-     * @param int $data
+     * @param int $userId
      * @return list<array<string, mixed>>
     */
     public function all(int $userId): array

@@ -17,7 +17,7 @@ final class MakeDepositUsecase
     {
         $wallet = $this->repository->store($input->getWalletId());
         return $this->repository->increaseBalance(
-            $wallet->getId(), 
+            (int) $wallet->getId(), 
             ($wallet->getBalance() + $input->getValue())
         );
     }
