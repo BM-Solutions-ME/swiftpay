@@ -18,21 +18,16 @@ final class CompanyController extends Api
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param CompanyRegisterInputData $data
      * @return void
     */
-    public function insert(array $data): void
+    public function insert(CompanyRegisterInputData $data): void
     {
         try {
-            $data["user_id"] = (!empty($data["user_id"]) ? $data["user_id"] : $this->user->getId());
-            $input = new CompanyRegisterInputData(
-                $data["user_id"],
-                $data["public_name"],
-                $data["legal_name"],
-                $data["document"],
-                $data["date_foundation"]
-            );
-            $newCompany = (new CompanyRegisterUsecase(new CompanyRepository()))->handle($input);
+            if (empty($data->getUserId())) {
+                $data->setUserId((int) $this->user->getId());
+            }
+            $newCompany = (new CompanyRegisterUsecase(new CompanyRepository()))->handle($data);
             ApiResponse::success($newCompany->toArray());
         } catch (\Throwable $e) {
             $exception = MapExceptionToResponse::map($e);

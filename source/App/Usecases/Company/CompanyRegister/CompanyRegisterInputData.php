@@ -7,16 +7,21 @@ namespace Source\App\Usecases\Company\CompanyRegister;
 final class CompanyRegisterInputData
 {
     public function __construct(
-        private readonly int $userId,
+        private ?int $userId,
         private readonly string $publicName,
         private readonly string $legalName,
         private readonly string $document,
         private readonly ?string $dateFoundation = null
     ) {}
 
-    public function getUserId(): int
+    public function getUserId(): ?int
     {
         return $this->userId;
+    }
+
+    public function setUserId(int $userId): void
+    {
+        $this->userId = $userId;
     }
 
     public function getPublicName(): string

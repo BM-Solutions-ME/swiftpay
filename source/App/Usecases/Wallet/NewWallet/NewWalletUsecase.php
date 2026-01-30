@@ -26,7 +26,7 @@ final class NewWalletUsecase
     public function handle(NewWalletInputData $input): NewWalletOutputData
     {
         $newWallet = new Wallet();
-        $newWallet->setUserId($input->getUserId());
+        $newWallet->setUserId((int) $input->getUserId());
         $newWallet->setCompanyId($input->getCompanyId() ?? null);
         $newWallet->setTitle($input->getTitle());
         $newWallet->setBalance(0);

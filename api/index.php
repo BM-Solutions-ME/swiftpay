@@ -37,7 +37,7 @@ $route->post("/wallet/balance","WalletController:balance");
 $route->post("/wallet/create", "WalletController:create");
 $route->post("/wallet/deposit","WalletController:deposit");
 
-$route->get("/wallet/store/{wallet_id}", "WalletController:store");
+$route->get("/wallet/store/{walletId}", "WalletController:store");
 
 // Transfer
 $route->post("/transfer/do-transfer","TransferController:doTransfer");

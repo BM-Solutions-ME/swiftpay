@@ -20,7 +20,7 @@ final class AuthRepository implements AuthRepositoryInterface
     /**
      * @throws Exception
      */
-    public function execute(string $email, string $password): array
+    public function execute(string $email, string $password): User
     {
         $repo = new RepositoryStrategy(new MariaDbRepositoryHandler(Connect::getInstance()));
         /** @var User|null $user */
@@ -46,6 +46,6 @@ final class AuthRepository implements AuthRepositoryInterface
             throw new AuthBlockedUserStatusException($exceptionMessage);
         }
 
-        return $user->toArray();
+        return $user;
     }
 }

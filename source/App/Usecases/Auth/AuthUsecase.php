@@ -27,9 +27,10 @@ final class AuthUsecase
      */
     public function handle(AuthInputData $input): AuthOutputData
     {
-        $response = $this->repository->execute($input->getEmail(), $input->getPassword());
-        $response["created_at"] = (new DateTime($response["created_at"]))->format("d/m/Y H\hi");
-        $response["authenticate"] = $this->authToken->tokenGenerate($response["id"]);
+        $user = $this->repository->execute($input->getEmail(), $input->getPassword());
+        $response = $user->toArray();
+        $response["created_at"] = (!empty($user->getCreatedAt()) ? $user->getCreatedAt()->format("d/m/Y H\hi") : '');
+        $response["authenticate"] = $this->authToken->tokenGenerate((int) $user->getId());
         return new AuthOutputData($response);
     }
 }
