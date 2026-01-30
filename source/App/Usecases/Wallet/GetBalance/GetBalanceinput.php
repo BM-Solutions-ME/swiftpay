@@ -8,7 +8,7 @@ final class GetBalanceInput
 {
     public function __construct(
         private readonly string $filterBy,
-        private readonly int $id
+        private ?int $id
     ) {}
 
     public function getFilterBy(): string
@@ -16,8 +16,13 @@ final class GetBalanceInput
         return $this->filterBy;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 }

@@ -15,9 +15,9 @@ final class GetBalanceUsecase
     public function handle(GetBalanceInput $input): int
     {
         if ($input->getFilterBy() === "wallet") {
-            return $this->repository->balance($input->getId());
+            return $this->repository->balance((int) $input->getId());
         }
 
-        return $this->repository->balanceAll($input->getId());
+        return $this->repository->balanceAll((int) $input->getId());
     }
 }

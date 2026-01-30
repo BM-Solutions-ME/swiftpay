@@ -13,19 +13,6 @@ final class CreateTransferInput
         private readonly int $value
     ) {}
 
-    /**
-     * @param array<string, mixed> $data
-     * @return self
-    */
-    public static function fromArray(array $data): self
-    {
-        return new self(
-            (int) $data["wallet_payee"],
-            (int) $data["payee"],
-            (int) $data["wallet_payer"],
-            (int) $data["value"]
-        );
-    }
     public function getWalletPayee(): int
     {
         return $this->walletPayee;
