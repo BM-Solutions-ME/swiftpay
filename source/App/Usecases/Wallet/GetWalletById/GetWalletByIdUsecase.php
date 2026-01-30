@@ -13,8 +13,8 @@ final class GetWalletByIdUsecase
         private readonly WalletRepositoryInterface $repository
     ) {}
 
-    public function handle(int $walletId): Wallet
+    public function handle(GetWalletByIdInput $input): Wallet
     {
-        return $this->repository->store($walletId);
+        return $this->repository->store($input->getWalletId());
     }
 }

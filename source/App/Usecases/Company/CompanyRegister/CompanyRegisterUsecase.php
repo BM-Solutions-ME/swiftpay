@@ -16,7 +16,7 @@ final class CompanyRegisterUsecase
     public function handle(CompanyRegisterInputData $input): CompanyRegisterOutputData
     {
         $newCompany = new Company;
-        $newCompany->setUserId($input->getUserId());
+        $newCompany->setUserId((int) $input->getUserId());
         $newCompany->setPublicName($input->getPublicName());
         $newCompany->setLegalName($input->getLegalName());
         $newCompany->setDocument($input->getDocument());

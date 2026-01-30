@@ -12,16 +12,17 @@ use Source\Presentation\Http\ApiResponse;
 use Source\Infra\Adapters\JwtAdapter;
 use Source\Infra\Exceptions\MapExceptionToResponse;
 use Source\Infra\Repositories\AuthRepository;
+use Source\Presentation\Http\Requests\AuthRequest;
 
 class AuthController
 {
-    /** @param array<string, mixed> $data */
-    public function index(array $data): void
+    /** @param AuthRequest $data */
+    public function index(AuthRequest $data): void
     {
         try {
             $input = new AuthInputData(
-                new Email($data["email"]), 
-                $data["password"]
+                new Email($data->email), 
+                $data->password
             );
             $authenticate = (new AuthUsecase(
                 new AuthRepository, 

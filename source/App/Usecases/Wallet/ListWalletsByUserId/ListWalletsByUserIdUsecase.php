@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Source\App\Usecases\Wallet\ListWalletsByUserId;
 
+use Source\App\Usecases\Wallet\ListWalletsByUserId\ListWalletsByUserIdInput;
 use Source\Domain\Repositories\WalletRepositoryInterface;
 
 final class ListWalletsByUserIdUsecase
@@ -13,11 +14,11 @@ final class ListWalletsByUserIdUsecase
     ) {}
 
     /**
-     * @param int $userId
+     * @param ListWalletsByUserIdInput $input
      * @return list<array<string, mixed>>
     */
-    public function handle(int $userId): array
+    public function handle(ListWalletsByUserIdInput $input): array
     {
-        return $this->repository->all($userId);
+        return $this->repository->all((int) $input->getUserId());
     }
 }

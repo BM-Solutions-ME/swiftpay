@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Source\Domain\Repositories;
 
+use Source\Domain\Entities\User;
+
 interface AuthRepositoryInterface
 {
-    /** @return array<string, mixed> */
-    public function execute(string $email, string $password): array;
+    /** @return User */
+    public function execute(string $email, string $password): User;
 }

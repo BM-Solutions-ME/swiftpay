@@ -17,22 +17,13 @@ use Source\Infra\Repositories\UserRepository;
 class SignupController
 {
     /**
-     * @param array<string, mixed> $data
+     * @param SignupInputData $data
      * @return void
     */
-    public function register(array $data): void
+    public function register(SignupInputData $data): void
     {
         try {
-            $input = new SignupInputData(
-                $data["first_name"],
-                 $data["last_name"],
-                     $data["type"],
-                 $data["document"],
-                    $data["email"],
-                 $data["password"]
-            );
-
-            $newUser = (new SignupUsecase(new SignupRepository))->handle($input);
+            $newUser = (new SignupUsecase(new SignupRepository))->handle($data);
             $responseApi = $newUser->toArray();
             $validateUserPayload = [
                 "user_id" => $newUser->getId(),
@@ -53,17 +44,13 @@ class SignupController
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param ValidateNewAccountInputData $data
      * @return void
     */
-    public function validateNewAccount(array $data): void
+    public function validateNewAccount(ValidateNewAccountInputData $data): void
     {
         try {
-            if (empty($data["userHash"])) {
-                throw new \Exception("Link de validação inválido.");
-            }
-            $input = new ValidateNewAccountInputData($data["userHash"]);
-            (new ValidateNewAccountUsecase(new UserRepository()))->validate($input);
+            (new ValidateNewAccountUsecase(new UserRepository()))->validate($data);
             ApiResponse::success([]);
         } catch (\Throwable $e) {
             ApiResponse::error(

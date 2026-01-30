@@ -22,21 +22,19 @@ final class TransferController extends Api
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param CreateTransferInput $data
      * @return void
     */
-    public function doTransfer(array $data): void
+    public function doTransfer(CreateTransferInput $data): void
     {
         try {
-            $input = CreateTransferInput::fromArray($data);
-
             Transaction::open();
             $transferExecute = (new ExecuteTransferUsecase(
                 new TransferRepository(),
                 new WalletRepository(),
                 new UserRepository(),
                 new Http()
-            ))->handle($this->user, $input);
+            ))->handle($this->user, $data);
             Transaction::close();
             ApiResponse::success($transferExecute->toArray());
         } catch (\Throwable $e) {
