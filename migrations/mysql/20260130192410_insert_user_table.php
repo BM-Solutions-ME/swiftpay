@@ -19,7 +19,7 @@ return new class implements MigrationInterface {
         */
         $driver->execute("INSERT INTO users 
             (type, `first_name`, `last_name`, `document`, email, password, level, status) 
-            VALUES ('F', 'Bruno', 'Mota', '016.662.180-30', 'bruno91.m@gmail.com', '12345678', 10, 'active');
+            VALUES ('F', 'Bruno', 'Mota', '079.641.890-00', 'bruno.mota@gmail.com', '12345678', 10, 'active');
         ");
     }
 
