@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Source\App\Usecases\Transfer\ExecuteTransfer;
 
 use Exception;
-use Source\App\Contracts\CurlRequestInterface;
+use Source\App\Contracts\TransferAuthorizer;
 use Source\App\Usecases\Transfer\CreateTransfer\CreateTransferInput;
 use Source\App\Usecases\Transfer\CreateTransfer\CreateTransferUsecase;
 use Source\App\Usecases\Wallet\DecreaseBalance\DecreaseBalanceUsecase;
@@ -21,7 +21,7 @@ final class ExecuteTransferUsecase
         private readonly TransferRepositoryInterface $transferRepo,
         private readonly WalletRepositoryInterface $walletRepo,
         private readonly UserRepositoryInterface $userRepo,
-        private readonly CurlRequestInterface $http
+        private readonly TransferAuthorizer $transferAuthorizer
     ) {}
 
     public function handle(User $payer, CreateTransferInput $input): ExecuteTransferOutput
@@ -44,10 +44,7 @@ final class ExecuteTransferUsecase
         (new DecreaseBalanceUsecase($this->walletRepo))->handle((int) $walletPayer->getId(), $value);
         (new IncreaseBalanceUsecase($this->walletRepo))->handle((int) $walletPayee->getId(), $value);
 
-        $validateOperation = $this->http->setBaseUrl("https://util.devi.tools/api/v2/authorize");
-        $validateOperation->get();
-
-        if ($validateOperation->getResponse()->status != "success") {
+        if (!$this->transferAuthorizer->authorize()) {
             throw new Exception("A tranferência não pode ser concluída pela operadora, 
                     tente novamente mais tarde.");
         }
