@@ -37,9 +37,9 @@ interface WalletRepositoryInterface
     public function balance(int $walletId): int;
     /**
      * @param Wallet $newWallet
-     * @return NewWalletOutputData
+     * @return Wallet
     */
-    public function create(Wallet $newWallet): NewWalletOutputData;
+    public function create(Wallet $newWallet): Wallet;
 
     /**
      * @param int $walletId

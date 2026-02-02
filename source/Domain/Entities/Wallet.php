@@ -7,10 +7,13 @@ namespace Source\Domain\Entities;
 use Source\Domain\Attributes\Column;
 use Source\Domain\Attributes\Table;
 use Source\Domain\Contracts\PersistableEntityInterface;
+use Source\Domain\Traits\HydrateTrait;
 
 #[Table(name: "wallet")]
 final class Wallet implements PersistableEntityInterface
 {
+    use HydrateTrait;
+
     #[Column(name: "id", type: "int", primaryKey: true)]
     private ?int $id;
     #[Column(name: "user_id", type: "int", required: true, requiredMessage: "Informe o usuário responsável pela carteira.")]

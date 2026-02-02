@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace  Source\Infra\External\Transfer;
 
-use Exception;
 use Source\App\Contracts\CurlRequestInterface;
 use Source\App\Contracts\TransferAuthorizer;
 use Source\Infra\External\Transfer\Dto\TransferAuthorizerDto;
