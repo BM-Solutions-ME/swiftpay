@@ -9,6 +9,7 @@ use Source\App\Usecases\Transfer\ExecuteTransfer\ExecuteTransferUsecase;
 use Source\Framework\Core\Transaction;
 use Source\Framework\Support\Http;
 use Source\Infra\Exceptions\MapExceptionToResponse;
+use Source\Infra\External\Transfer\HttpTransferAuthorizer;
 use Source\Infra\Repositories\TransferRepository;
 use Source\Infra\Repositories\UserRepository;
 use Source\Infra\Repositories\WalletRepository;
@@ -33,7 +34,7 @@ final class TransferController extends Api
                 new TransferRepository(),
                 new WalletRepository(),
                 new UserRepository(),
-                new Http()
+                new HttpTransferAuthorizer(new Http)
             ))->handle($this->user, $data);
             Transaction::close();
             ApiResponse::success($transferExecute->toArray());

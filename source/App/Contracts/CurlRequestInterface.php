@@ -25,7 +25,10 @@ interface CurlRequestInterface
 
     public function delete(): self;
 
-    public function getResponse(): mixed;
+    /**
+     * @return array<string, mixed>
+    */
+    public function getResponse(): array;
 
     public function print(): string;
 }

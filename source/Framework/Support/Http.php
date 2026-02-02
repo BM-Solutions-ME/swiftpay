@@ -83,9 +83,12 @@ final class Http implements CurlRequestInterface
         return $this;
     }
 
-    public function getResponse(): mixed
+    /**
+     * @return array<string, mixed>
+    */
+    public function getResponse(): array
     {
-        return json_decode($this->response);
+        return json_decode($this->response, true);
     }
 
     public function print(): string
