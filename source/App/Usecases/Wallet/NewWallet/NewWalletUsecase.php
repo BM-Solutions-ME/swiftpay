@@ -33,13 +33,6 @@ final class NewWalletUsecase
 
         /** @var Wallet $walletRegistered */
         $walletRegistered = $this->repository->create($newWallet);
-        return new NewWalletOutputData([
-            "id" => $walletRegistered->getId(),
-            "user_id" => $walletRegistered->getUserId(),
-            "company_id" => $walletRegistered->getCompanyId(),
-            "title" => $walletRegistered->getTitle(),
-            "balance" => $walletRegistered->getBalance(),
-            "created_at" => $walletRegistered->getCreatedAt()->format("Y-m-d H:i:s")
-        ]);
+        return new NewWalletOutputData($walletRegistered->toArray());
     }
 }
