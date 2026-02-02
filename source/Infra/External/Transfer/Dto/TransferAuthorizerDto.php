@@ -8,11 +8,11 @@ final class TransferAuthorizerDto
 {
     /**
      * @param string $status
-     * @param array<string, =mixed>|null $data
+     * @param array<string, mixed> $data
     */
     public function __construct(
         private string $status,
-        private ?array $data
+        private array $data
     ) {}
 
     /**
@@ -23,7 +23,7 @@ final class TransferAuthorizerDto
     {
         return new self(
             $data["status"] ?? '', 
-            $data["data"] ?? null
+            $data["data"] ?? []
         );
     }
 
@@ -33,5 +33,13 @@ final class TransferAuthorizerDto
     public function isAthorized(): bool
     {
         return $this->status === 'success';
+    }
+
+    /**
+     * @return array<string, mixed>
+    */
+    public function getData(): array
+    {
+        return $this->data;
     }
 }
