@@ -7,7 +7,6 @@ namespace Source\Infra\Controllers\Api;
 use Source\App\Usecases\Auth\AuthInputData;
 use Source\App\Usecases\Auth\AuthUsecase;
 use Source\Domain\ValueObjects\Email;
-use Source\Domain\ValueObjects\Password;
 use Source\Presentation\Http\ApiResponse;
 use Source\Infra\Adapters\JwtAdapter;
 use Source\Infra\Exceptions\MapExceptionToResponse;

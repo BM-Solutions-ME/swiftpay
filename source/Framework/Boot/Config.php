@@ -87,17 +87,35 @@ const CONF_IMAGE_QUALITY = ["jpg" => 75, "png" => 5];
 /**
  * MAIL
  */
-const CONF_MAIL_HOST = "mail.test.com.br";
-const CONF_MAIL_PORT = "587";
-const CONF_MAIL_USER = "test@test.com.br";
-const CONF_MAIL_PASS = "32idlau4";
-const CONF_MAIL_SENDER = ["name" => "Test", "address" => "test@test.com.br"];
-const CONF_MAIL_SUPPORT = "test@test.com.br";
-const CONF_MAIL_OPTION_LANG = "br";
-const CONF_MAIL_OPTION_HTML = true;
-const CONF_MAIL_OPTION_AUTH = true;
-const CONF_MAIL_OPTION_SECURE = "tls";
-const CONF_MAIL_OPTION_CHARSET = "utf-8";
+$email_config = [
+    "CONF_MAIL_HOST" => $_ENV["CONF_MAIL_HOST"],
+    "CONF_MAIL_PORT" => $_ENV["CONF_MAIL_PORT"],
+    "CONF_MAIL_USER" => $_ENV["CONF_MAIL_USER"],
+    "CONF_MAIL_PASS" => $_ENV["CONF_MAIL_PASS"],
+    "CONF_MAIL_SENDER_NAME" => $_ENV["CONF_MAIL_SENDER_NAME"],
+    "CONF_MAIL_SENDER_EMAIL" => $_ENV["CONF_MAIL_SENDER_EMAIL"],
+    "CONF_MAIL_SUPPORT" => $_ENV["CONF_MAIL_SUPPORT"],
+    "CONF_MAIL_OPTION_LANG" => $_ENV["CONF_MAIL_OPTION_LANG"],
+    "CONF_MAIL_OPTION_HTML" => $_ENV["CONF_MAIL_OPTION_HTML"],
+    "CONF_MAIL_OPTION_AUTH" => $_ENV["CONF_MAIL_OPTION_AUTH"],
+    "CONF_MAIL_OPTION_SECURE" => $_ENV["CONF_MAIL_OPTION_SECURE"],
+    "CONF_MAIL_OPTION_CHARSET" => $_ENV["CONF_MAIL_OPTION_CHARSET"]
+];
+
+define("CONF_MAIL_HOST", $email_config["CONF_MAIL_HOST"]);
+define("CONF_MAIL_PORT", $email_config["CONF_MAIL_PORT"]);
+define("CONF_MAIL_USER", $email_config["CONF_MAIL_USER"]);
+define("CONF_MAIL_PASS", $email_config["CONF_MAIL_PASS"]);
+define("CONF_MAIL_SENDER", [
+    "name" => $email_config["CONF_MAIL_SENDER_NAME"], 
+    "address" => $email_config["CONF_MAIL_SENDER_EMAIL"]
+]);
+define("CONF_MAIL_SUPPORT", $email_config["CONF_MAIL_SUPPORT"]);
+define("CONF_MAIL_OPTION_LANG", $email_config["CONF_MAIL_OPTION_LANG"]);
+define("CONF_MAIL_OPTION_HTML", $email_config["CONF_MAIL_OPTION_HTML"]);
+define("CONF_MAIL_OPTION_AUTH", $email_config["CONF_MAIL_OPTION_AUTH"]);
+define("CONF_MAIL_OPTION_SECURE", $email_config["CONF_MAIL_OPTION_SECURE"]);
+define("CONF_MAIL_OPTION_CHARSET", $email_config["CONF_MAIL_OPTION_CHARSET"]);
 
 /*
  *  JWT
