@@ -28,10 +28,12 @@ trait HydrateTrait
                         $value = $data[$propertyName];
 
                         if ($column->cast === 'DateTime') {
+                            assert(is_string($value));
                             $value = new DateTime($value);
                         }  elseif (enum_exists((string) $column->cast)) {
                             /** @var class-string<\BackedEnum> $instanceEnum */
                             $instanceEnum = $column->cast;
+                            assert(is_int($value) || is_string($value));
                             $value = $instanceEnum::from($value);
                         } else {
                             settype($value, $column->type);

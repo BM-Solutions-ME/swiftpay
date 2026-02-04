@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Source\App\Usecases\Company\CompanyRegister;
 
+use Source\Domain\Entities\Company;
+
 final class CompanyRegisterOutputData
 {
     private readonly int $id;
@@ -13,21 +15,21 @@ final class CompanyRegisterOutputData
     private readonly string $document;
     private readonly ?string $dateFoundation;
     private readonly string $createdAt;
-    private readonly ?string $updatedAt;
+    private readonly string $updatedAt;
 
     /**
-     * @param array<string, mixed> $data
+     * @param Company $data
     */
-    public function __construct(array $data)
+    public function __construct(Company $data)
     {
-        $this->id = $data["id"];
-        $this->userId = $data["user_id"];
-        $this->publicName = $data["public_name"];
-        $this->legalName = $data["legal_name"];
-        $this->document = $data["document"];
-        $this->dateFoundation = $data["date_foundation"];
-        $this->createdAt = $data["created_at"];
-        $this->updatedAt = $data["updated_at"];
+        $this->id = (int) $data->getId();
+        $this->userId = $data->getUserId();
+        $this->publicName = $data->getPublicName();
+        $this->legalName = $data->getLegalName();
+        $this->document = (string) $data->getDocument();
+        $this->dateFoundation = $data->getDateFoundation();
+        $this->createdAt = (!empty($data->getCreatedAt()) ? $data->getCreatedAt()->format("Y-m-d H:i:s") : '');
+        $this->updatedAt = (!empty($data->getUpdatedAt()) ? $data->getUpdatedAt()->format("Y-m-d H:i:s") : '');
     }
 
     public function getId(): int
@@ -65,7 +67,7 @@ final class CompanyRegisterOutputData
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): ?string
+    public function getUpdatedAt(): string
     {
         return $this->updatedAt;
     }

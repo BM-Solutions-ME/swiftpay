@@ -14,13 +14,13 @@ final class SignupRepository implements SignupRepositoryInterface
 {
     /**
      * @param User $newUser
-     * @return array<string, mixed>
+     * @return User
     */
-    public function register(User $newUser): array
+    public function register(User $newUser): User
     {
         $repo = new RepositoryStrategy(new MariaDbRepositoryHandler(Connect::getInstance()));
         /** @var User $userRegistered */
         $userRegistered = $repo->save($newUser);
-        return $userRegistered->toArray();
+        return $userRegistered;
     }
 }

@@ -31,6 +31,8 @@ final class NewWalletUsecase
         $newWallet->setTitle($input->getTitle());
         $newWallet->setBalance(0);
 
-        return $this->repository->create($newWallet);
+        /** @var Wallet $walletRegistered */
+        $walletRegistered = $this->repository->create($newWallet);
+        return new NewWalletOutputData($walletRegistered);
     }
 }

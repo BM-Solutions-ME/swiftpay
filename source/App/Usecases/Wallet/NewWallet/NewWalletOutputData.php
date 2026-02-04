@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Source\App\Usecases\Wallet\NewWallet;
 
+use Source\Domain\Entities\Wallet;
+
 final class NewWalletOutputData
 {
     private readonly int $id;
@@ -14,16 +16,16 @@ final class NewWalletOutputData
     private readonly string $createdAt;
 
     /**
-     * @param array<string, mixed> $data
+     * @param Wallet $data
     */
-    public function __construct(array $data)
+    public function __construct(Wallet $data)
     {
-        $this->id = $data["id"];
-        $this->userId = $data["user_id"];
-        $this->companyId = (!empty($data["company_id"]) ? $data["company_id"] : null);
-        $this->title = $data["title"];
-        $this->balance = $data["balance"];
-        $this->createdAt = $data["created_at"];
+        $this->id = (int) $data->getId();
+        $this->userId = $data->getUserId();
+        $this->companyId = (!empty($data->getCompanyId()) ? $data->getCompanyId() : null);
+        $this->title = $data->getTitle();
+        $this->balance = $data->getBalance();
+        $this->createdAt = (!empty($data->getCreatedAt()) ? $data->getCreatedAt()->format("Y-m-d H:i:s") : '');
     }
 
     /**
