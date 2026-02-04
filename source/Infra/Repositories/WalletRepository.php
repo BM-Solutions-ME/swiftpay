@@ -17,21 +17,20 @@ final class WalletRepository implements WalletRepositoryInterface
 {
     /**
      * @param int $userId
-     * @return list<array<string, mixed>>
+     * @return array<int, Wallet>
     */
     public function all(int $userId): array
     {
         $repo = new RepositoryStrategy(new MariaDbRepositoryHandler(Connect::getInstance()));
-        /** @var array<int, mixed> $wallets */
+        /** @var array<int, Wallet> $wallets */
         $wallets = $repo->query(Wallet::class)
             ->where("user_id", "=", $userId)
             ->get(true);
 
         $response = [];
         if (!empty($wallets)) {
-            /** @var Wallet $wallet */
             foreach ($wallets as $wallet) {
-                $response[] = $wallet->toArray();
+                $response[] = $wallet;
             }
         }
 
@@ -72,7 +71,7 @@ final class WalletRepository implements WalletRepositoryInterface
         $balance = 0;
         foreach ($wallets as $wallet) {
             $walletEntity = new Wallet();
-            $walletEntity->hydrate($wallet);
+            $walletEntity->hydrate($wallet->toArray());
             $balance += $walletEntity->getBalance();
         }
 

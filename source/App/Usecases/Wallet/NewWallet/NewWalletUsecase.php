@@ -33,6 +33,6 @@ final class NewWalletUsecase
 
         /** @var Wallet $walletRegistered */
         $walletRegistered = $this->repository->create($newWallet);
-        return new NewWalletOutputData($walletRegistered->toArray());
+        return new NewWalletOutputData($walletRegistered);
     }
 }

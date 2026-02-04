@@ -22,6 +22,7 @@ final class CompanyRegisterUsecase
         $newCompany->setDocument($input->getDocument());
         $newCompany->setDateFoundation($input->getDateFoundation());
 
+        /** @var Company $response */
         $response = $this->repository->register($newCompany);
         return new CompanyRegisterOutputData($response);
     }

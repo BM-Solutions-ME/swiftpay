@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Source\App\Usecases\Signup;
 
+use Source\Domain\Entities\User;
+
 final class SignupOutputData
 {
     private int $id;
@@ -17,19 +19,19 @@ final class SignupOutputData
     private string $createdAt;
 
     /**
-     * @param array<string, mixed> $data
+     * @param User $data
      */
-    public function __construct(array $data)
+    public function __construct(User $data)
     {
-        $this->id = $data["id"];
-        $this->firstName = $data["first_name"];
-        $this->lastName = $data["last_name"];
-        $this->type = $data["type"];
-        $this->document = $data["document"];
-        $this->email = $data["email"];
-        $this->level = $data["level"];
-        $this->status = $data["status"];
-        $this->createdAt = $data["created_at"];
+        $this->id = $data->getId();
+        $this->firstName = $data->getFirstName();
+        $this->lastName = $data->getLastName();
+        $this->type = $data->getType()->value;
+        $this->document = $data->getDocument();
+        $this->email = $data->getEmail();
+        $this->level = $data->getLevel();
+        $this->status = $data->getStatus()->value;
+        $this->createdAt = $data->getCreatedAt();
     }
 
     public function getId(): int

@@ -8,6 +8,6 @@ use Source\Domain\Entities\User;
 
 interface SignupRepositoryInterface
 {
-    /** @return array<string, mixed> */
-    public function register(User $newUser): array;
+    /** @return User */
+    public function register(User $newUser): User;
 }
