@@ -10,7 +10,7 @@ interface CompanyRepositoryInterface
 {
     /**
      * @param Company $newCompany
-     * @return array<string, mixed>
+     * @return Company
     */
-    public function register(Company $newCompany): array;
+    public function register(Company $newCompany): Company;
 }

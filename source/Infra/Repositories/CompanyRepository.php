@@ -14,13 +14,13 @@ final class CompanyRepository implements CompanyRepositoryInterface
 {
     /**
      * @param Company $newCompany
-     * @return array<string, mixed>
+     * @return Company
     */
-    public function register(Company $newCompany): array
+    public function register(Company $newCompany): Company
     {
         $repo = new RepositoryStrategy(new MariaDbRepositoryHandler(Connect::getInstance()));
         /** @var Company $companyRegistered */
         $companyRegistered = $repo->save($newCompany);
-        return $companyRegistered->toArray();
+        return $companyRegistered;
     }
 }

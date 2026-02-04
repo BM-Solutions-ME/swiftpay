@@ -26,6 +26,7 @@ final class SignupUsecase
         $newUser->setLevel(1);
         $newUser->setStatus(UserStatusEnum::Registered);
 
+        /** @var User $response */
         $response = $this->repository->register($newUser);
         return new SignupOutputData($response);
     }

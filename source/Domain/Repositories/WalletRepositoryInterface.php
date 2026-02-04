@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Source\Domain\Repositories;
 
-use Source\App\Usecases\Wallet\NewWallet\NewWalletOutputData;
 use Source\Domain\Entities\Wallet;
 
 /**
@@ -14,32 +13,18 @@ interface WalletRepositoryInterface
 {
     /**
      * @param int $userId
-     * @return list<array<string, mixed>>
+     * @return array<int, Wallet>
     */
     public function all(int $userId): array;
-
-    /**
-     * @param int $walletId
-     * @return Wallet
-     */
     public function store(int $walletId): Wallet;
-
-    /**
-     * @param int $userId
-     * @return int
-     */
     public function balanceAll(int $userId): int;
-
-    /**
-     * @param int $walletId
-     * @return int
-     */
+    /** @return int */
     public function balance(int $walletId): int;
     /**
      * @param Wallet $newWallet
-     * @return NewWalletOutputData
+     * @return Wallet
     */
-    public function create(Wallet $newWallet): NewWalletOutputData;
+    public function create(Wallet $newWallet): Wallet;
 
     /**
      * @param int $walletId

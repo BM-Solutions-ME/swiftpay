@@ -27,20 +27,22 @@ final class SignupUsecaseTest extends TestCase
 
         $repositoryMock = $this->createMock(SignupRepositoryInterface::class);
 
+        $willReturnExample = new User;
+        $willReturnExample->hydrate([
+            'id' => 1,
+            'first_name' => 'João',
+            'last_name' => 'Silva',
+            'type' => 'F',
+            'document' => '085.880.850-11',
+            'email' => 'joao@example.com',
+            'level' => 1,
+            'status' => UserStatusEnum::Registered->value,
+            'created_at' => '2025-08-14 15:30:00'
+        ]);
         $repositoryMock->expects($this->once())
             ->method('register')
             ->with($this->isInstanceOf(User::class))
-            ->willReturn([
-                'id' => 1,
-                'first_name' => 'João',
-                'last_name' => 'Silva',
-                'type' => 'F',
-                'document' => '085.880.850-11',
-                'email' => 'joao@example.com',
-                'level' => 1,
-                'status' => UserStatusEnum::Registered->value,
-                'created_at' => '2025-08-14 15:30:00'
-            ]);
+            ->willReturn($willReturnExample);
 
         $signup = new SignupUsecase($repositoryMock);
         $output = $signup->handle($input);
