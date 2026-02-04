@@ -8,8 +8,6 @@ use Source\Domain\Entities\Wallet;
 
 final class ListWalletsByUserIdOutput
 {
-    private array $response = [];
-
     /**
      * @param array<int, Wallet> $wallets
     */
@@ -18,17 +16,18 @@ final class ListWalletsByUserIdOutput
     ) {}
 
     /**
-     * @return array<int, Wallet>
+     * @return list<array<string, mixed>>
     */
     public function toArray(): array
     {
+        $response = [];
         if (!empty($this->wallets)) {
             /** @var Wallet $wallet */
             foreach ($this->wallets as $wallet) {
-                $this->response[] = $wallet->toArray();
+                $response[] = $wallet->toArray();
             }
         }
 
-        return $this->response;
+        return $response;
     }
 }

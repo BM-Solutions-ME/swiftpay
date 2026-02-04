@@ -15,14 +15,14 @@ final class CompanyRegisterOutputData
     private readonly string $document;
     private readonly ?string $dateFoundation;
     private readonly string $createdAt;
-    private readonly ?string $updatedAt;
+    private readonly string $updatedAt;
 
     /**
      * @param Company $data
     */
     public function __construct(Company $data)
     {
-        $this->id = $data->getId();
+        $this->id = (int) $data->getId();
         $this->userId = $data->getUserId();
         $this->publicName = $data->getPublicName();
         $this->legalName = $data->getLegalName();
@@ -67,7 +67,7 @@ final class CompanyRegisterOutputData
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): ?string
+    public function getUpdatedAt(): string
     {
         return $this->updatedAt;
     }

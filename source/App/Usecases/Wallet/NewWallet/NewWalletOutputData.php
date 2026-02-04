@@ -20,7 +20,7 @@ final class NewWalletOutputData
     */
     public function __construct(Wallet $data)
     {
-        $this->id = $data->getId();
+        $this->id = (int) $data->getId();
         $this->userId = $data->getUserId();
         $this->companyId = (!empty($data->getCompanyId()) ? $data->getCompanyId() : null);
         $this->title = $data->getTitle();

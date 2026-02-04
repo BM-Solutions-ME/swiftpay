@@ -23,15 +23,15 @@ final class SignupOutputData
      */
     public function __construct(User $data)
     {
-        $this->id = $data->getId();
+        $this->id = (int) $data->getId();
         $this->firstName = $data->getFirstName();
         $this->lastName = $data->getLastName();
         $this->type = $data->getType()->value;
-        $this->document = $data->getDocument();
-        $this->email = $data->getEmail();
+        $this->document = (string) $data->getDocument();
+        $this->email = (string) $data->getEmail();
         $this->level = $data->getLevel();
         $this->status = $data->getStatus()->value;
-        $this->createdAt = $data->getCreatedAt();
+        $this->createdAt = (!empty($data->getCreatedAt()) ? $data->getCreatedAt()->format("Y-m-d H:i:s") : '');
     }
 
     public function getId(): int
