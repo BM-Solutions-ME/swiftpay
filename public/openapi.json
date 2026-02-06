@@ -1,0 +1,85 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Swiftpay API",
+        "description": "API de transferências, carteiras e usuários",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost",
+            "description": "Local server"
+        }
+    ],
+    "paths": {
+        "/user/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Create a new user account",
+                "operationId": "d47c9b237deaebe3eedafc8986b83866",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SignupInputData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "SignupInputData": {
+                "properties": {
+                    "firstName": {
+                        "type": "string",
+                        "example": "Hector"
+                    },
+                    "lastName": {
+                        "type": "string",
+                        "example": "Bonilla"
+                    },
+                    "type": {
+                        "example": "F"
+                    },
+                    "document": {
+                        "type": "string",
+                        "example": "737.557.700-59"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "hector.bonilla@gmail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "12345678"
+                    },
+                    "level": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "User",
+            "description": "User"
+        }
+    ]
+}
