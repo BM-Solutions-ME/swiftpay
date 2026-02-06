@@ -4,16 +4,25 @@ declare(strict_types=1);
 
 namespace Source\App\Usecases\Signup;
 
+use OpenApi\Attributes as OA;
 use Source\Domain\Enum\UserTypeEnum;
 
+#[OA\Schema]
 final class SignupInputData
 {
+    #[OA\Property(example: "Hector")]
     private string $firstName;
+    #[OA\Property(example:"Bonilla")]
     private string $lastName;
+    #[OA\Property(example: UserTypeEnum::Person)]
     private UserTypeEnum $type;
+    #[OA\Property(example:"737.557.700-59")]
     private string $document;
+    #[OA\Property(example:"hector.bonilla@gmail.com")]
     private string $email;
+    #[OA\Property(example:"12345678")]
     private string $password;
+    #[OA\Property(example: 1)]
     private int $level;
 
     public function __construct(
