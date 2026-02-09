@@ -24,7 +24,8 @@
     },
     "scripts": {
         "test-unit": "vendor/bin/phpunit test/unit/",
-        "phpstan": "vendor/bin/phpstan analyse"
+        "phpstan": "vendor/bin/phpstan analyse",
+        "swagger": "vendor/bin/openapi source -o public/openapi.json"
     },
     "require": {
       "php": "^8.4",
