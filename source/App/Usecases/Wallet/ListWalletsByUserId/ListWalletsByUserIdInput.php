@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace Source\App\Usecases\Wallet\ListWalletsByUserId;
 
+use OpenApi\Attributes as OA;
+
+#[OA\Schema]
 final class ListWalletsByUserIdInput
 {
+    #[OA\Property(example: 1)]
+    private ?int $userId;
+
     public function __construct(
-        private ?int $userId
+        ?int $userId
     ) {}
 
     public function getUserId(): ?int

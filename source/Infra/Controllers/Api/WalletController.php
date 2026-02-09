@@ -14,9 +14,12 @@ use Source\App\Usecases\Wallet\MakeDeposit\MakeDepositInput;
 use Source\App\Usecases\Wallet\MakeDeposit\MakeDepositUsecase;
 use Source\App\Usecases\Wallet\NewWallet\NewWalletInputData;
 use Source\App\Usecases\Wallet\NewWallet\NewWalletUsecase;
+use Source\Domain\Http\Enum\HttpStatusEnum;
 use Source\Infra\Exceptions\MapExceptionToResponse;
 use Source\Infra\Repositories\WalletRepository;
 use Source\Presentation\Http\ApiResponse;
+
+use OpenApi\Attributes as OA;
 
 /**
  *
@@ -35,6 +38,19 @@ class WalletController extends Api
      * @param ListWalletsByUserIdInput $data
      * @return void
     */
+    #[OA\Post(
+        path: "/wallet/all",
+        summary: "Find all wallet's user",
+        tags: ["Wallet"],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: ListWalletsByUserIdInput::class)
+        ),
+        responses: [
+            new OA\Response(response: 200, description: "Wallet's user"),
+            new OA\Response(response: 400, description: "Validation error")
+        ]
+    )]
     public function all(ListWalletsByUserIdInput $data): void
     {
         try {
@@ -59,6 +75,22 @@ class WalletController extends Api
      * @param GetWalletByIdInput $data
      * @return void
     */
+    #[OA\Get(
+        path: "/wallet/store/{walletId}",
+        summary: "Get wallet by id",
+        tags: ["Wallet"],
+        parameters: [
+            new OA\Parameter(
+                name: "walletId",
+                in: "path",
+                required: true,
+                schema: new OA\Schema(type: "integer")
+            )
+        ],
+        responses: [
+            new OA\Response(response: 200, description: "Wallet data")
+        ]
+    )]
     public function store(GetWalletByIdInput $data): void
     {
         try {
@@ -100,6 +132,19 @@ class WalletController extends Api
      * @param NewWalletInputData $data
      * return void
     */
+    #[OA\Post(
+        path: "/wallet/create",
+        summary: "Create a new wallet",
+        tags: ["Wallet"],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: NewWalletInputData::class)
+        ),
+        responses: [
+            new OA\Response(response: 201, description: "Wallet created"),
+            new OA\Response(response: 400, description: "Validation error")
+        ]
+    )]
     public function create(NewWalletInputData $data): void
     {
         try {
@@ -107,7 +152,7 @@ class WalletController extends Api
                 $data->setUserId((int) $this->user->getId());
             }
             $newWallet = (new NewWalletUsecase(new WalletRepository()))->handle($data);
-            ApiResponse::success($newWallet->toArray());
+            ApiResponse::success($newWallet->toArray(), "CREATED", HttpStatusEnum::CREATED);
         } catch (\Throwable $e) {
             $exception = MapExceptionToResponse::map($e);
             ApiResponse::error(
@@ -122,6 +167,19 @@ class WalletController extends Api
      * @param MakeDepositInput $data
      * @return void
     */
+    #[OA\Post(
+        path: "/wallet/deposit",
+        summary: "Make a new deposit",
+        tags: ["Wallet"],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: MakeDepositInput::class)
+        ),
+        responses: [
+            new OA\Response(response: 200, description: "Deposit made"),
+            new OA\Response(response: 400, description: "Validation error")
+        ]
+    )]
     public function deposit(MakeDepositInput $data): void
     {
         try {

@@ -12,7 +12,13 @@ use OpenApi\Attributes as OA;
     description: "API de transferências, carteiras e usuários"
 )]
 #[OA\Server(
-    url: "http://localhost",
+    url: "http://localhost/api",
     description: "Local server"
 )]
+
+/**
+ * #[OA\Server(url: "http://localhost/api", description: "Local server")]
+ * #[OA\Server(url: "https://test.swiftpay.com/api", description: "Staging")]
+ * #[OA\Server(url: "https://swiftpay.com/api", description: "Production")]
+*/
 final class OpenApi {}
