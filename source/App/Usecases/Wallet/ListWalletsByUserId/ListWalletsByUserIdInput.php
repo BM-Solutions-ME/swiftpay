@@ -14,7 +14,9 @@ final class ListWalletsByUserIdInput
 
     public function __construct(
         ?int $userId
-    ) {}
+    ) {
+        $this->userId = (!empty($userId) ? $userId : null);
+    }
 
     public function getUserId(): ?int
     {

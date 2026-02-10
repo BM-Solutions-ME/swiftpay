@@ -117,6 +117,33 @@
                 }
             }
         },
+        "/wallet/balance": {
+            "post": {
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "Find wallet balance or total balance by user",
+                "operationId": "d05bbd2dc7ebfb770afffc5fffb21527",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetBalanceInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Wallet balance"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
         "/wallet/create": {
             "post": {
                 "tags": [
@@ -202,6 +229,20 @@
                     "level": {
                         "type": "integer",
                         "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "GetBalanceInput": {
+                "properties": {
+                    "filterBy": {
+                        "type": "string",
+                        "example": "wallet"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
                     }
                 },
                 "type": "object"

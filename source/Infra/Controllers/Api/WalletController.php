@@ -111,6 +111,19 @@ class WalletController extends Api
      * @param GetBalanceInput $data
      * @return void
      */
+    #[OA\Post(
+        path: "/wallet/balance",
+        summary: "Find wallet balance or total balance by user",
+        tags: ["Wallet"],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: GetBalanceInput::class)
+        ),
+        responses: [
+            new OA\Response(response: 200, description: "Wallet balance"),
+            new OA\Response(response: 400, description: "Validation error")
+        ]
+    )]
     public function balance(GetBalanceInput $data): void
     {
         try {
