@@ -38,6 +38,12 @@ trait RouterTrait
             $this->data[$key[1]] = ($routeDiff[$offset++] ?? null);
         }
 
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $queryParams = filter_input_array(INPUT_GET, FILTER_DEFAULT);
+            unset($queryParams["route"]);
+            $this->data = array_merge($this->data, $queryParams);
+        }
+
         $route = (!$this->group ? $route : "/{$this->group}{$route}");
         $data = $this->data;
         $namespace = $this->namespace;
