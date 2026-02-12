@@ -16,12 +16,27 @@ use Source\Infra\Exceptions\MapExceptionToResponse;
 use Source\Infra\Repositories\SignupRepository;
 use Source\Infra\Repositories\UserRepository;
 
+use OpenApi\Attributes as OA;
+
 class SignupController
 {
     /**
      * @param SignupInputData $data
      * @return void
     */
+    #[OA\Post(
+        path: "/user/register",
+        summary: "Create a new user account",
+        tags: ["User"],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: SignupInputData::class)
+        ),
+        responses: [
+            new OA\Response(response: 201, description: "User created"),
+            new OA\Response(response: 400, description: "Validation error")
+        ]
+    )]
     public function register(SignupInputData $data): void
     {
         try {
@@ -42,7 +57,7 @@ class SignupController
                 "recipientName" => $newUser->getFirstName()
             ])))->handle();
 
-            ApiResponse::success($responseApi);
+            ApiResponse::success($responseApi, "CREATED", HttpStatusEnum::CREATED);
         } catch (\Throwable $e) {
             $exception = MapExceptionToResponse::map($e);
             ApiResponse::error(

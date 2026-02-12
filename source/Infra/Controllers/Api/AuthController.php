@@ -13,9 +13,24 @@ use Source\Infra\Exceptions\MapExceptionToResponse;
 use Source\Infra\Repositories\AuthRepository;
 use Source\Presentation\Http\Requests\AuthRequest;
 
+use OpenApi\Attributes as OA;
+
 class AuthController
 {
     /** @param AuthRequest $data */
+    #[OA\Post(
+        path: "/user/auth",
+        summary: "User authentication",
+        tags: ["User"],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: AuthRequest::class),
+        ),
+        responses: [
+            new OA\Response(response: 200, description: "User authenticated"),
+            new OA\Response(response: 400, description: "Validation error")
+        ]
+    )]
     public function index(AuthRequest $data): void
     {
         try {
