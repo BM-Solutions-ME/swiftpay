@@ -238,7 +238,12 @@
             "GetBalanceInput": {
                 "properties": {
                     "filterBy": {
+                        "description": "Filter balance by wallet or by user",
                         "type": "string",
+                        "enum": [
+                            "wallet",
+                            "user"
+                        ],
                         "example": "wallet"
                     },
                     "id": {

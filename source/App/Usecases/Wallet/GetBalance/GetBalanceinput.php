@@ -9,7 +9,12 @@ use OpenApi\Attributes as OA;
 #[OA\Schema]
 final class GetBalanceInput
 {
-    #[OA\Property(example:"wallet")]
+    #[OA\Property(
+        type: "string",
+        enum: ["wallet", "user"],
+        example: "wallet",
+        description: "Filter balance by wallet or by user"
+    )]
     private readonly string $filterBy;
 
     #[OA\Property(example: 1)]
