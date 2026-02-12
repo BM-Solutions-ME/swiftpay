@@ -4,21 +4,37 @@ declare(strict_types=1);
 
 namespace Source\App\Usecases\Wallet\NewWallet;
 
+use OpenApi\Attributes as OA;
+
 /**
  *
  */
+#[ OA\Schema]
 final class NewWalletInputData
 {
+    #[OA\Property(example: 1)]
+    private ?int $userId;
+    
+    #[OA\Property(example: "Carteira 01")]
+    private readonly string $title;
+
+    #[OA\Property(example:1)]
+    private readonly ?int $companyId;
+
     /**
      * @param ?int $userId
      * @param string $title
      * @param int|null $companyId
      */
     public function __construct(
-        private ?int $userId,
-        private readonly string $title,
-        private readonly ?int $companyId
-    ) {}
+        ?int $userId,
+        string $title,
+        ?int $companyId
+    ) {
+        $this->userId = (!empty($userId) ? $userId : null);
+        $this->title = $title;
+        $this->companyId = (!empty($companyId) ? $companyId : null);
+    }
 
     /**
      * @return int

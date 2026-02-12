@@ -24,7 +24,8 @@
     },
     "scripts": {
         "test-unit": "vendor/bin/phpunit test/unit/",
-        "phpstan": "vendor/bin/phpstan analyse"
+        "phpstan": "vendor/bin/phpstan analyse",
+        "swagger": "vendor/bin/openapi source -o public/openapi.json"
     },
     "require": {
       "php": "^8.4",
@@ -39,7 +40,8 @@
       "php-amqplib/php-amqplib": "v3.6.0",
       "vlucas/phpdotenv": "^5.6",
       "twilio/sdk": "8.4.1",
-      "ext-curl": "*"
+      "ext-curl": "*",
+        "zircote/swagger-php": "^6.0"
     },
     "require-dev": {
       "phpunit/phpunit": "^11.5.50",

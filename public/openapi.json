@@ -1,0 +1,324 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Swiftpay API",
+        "description": "API de transferências, carteiras e usuários",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost/api",
+            "description": "Local server"
+        }
+    ],
+    "paths": {
+        "/user/auth": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "User authentication",
+                "operationId": "32e629175731f17299fd35ba067ce697",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User authenticated"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/user/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Create a new user account",
+                "operationId": "d47c9b237deaebe3eedafc8986b83866",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SignupInputData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/wallet/all": {
+            "get": {
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "Find all wallet's user",
+                "operationId": "3f93ba646df90bdced5483d35ed43112",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/ListWalletsByUserIdInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Wallet's user"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/wallet/store/{walletId}": {
+            "get": {
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "Get wallet by id",
+                "operationId": "c443a0c5cdcc21a6c9a1cd01b8f4e746",
+                "parameters": [
+                    {
+                        "name": "walletId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Wallet data"
+                    }
+                }
+            }
+        },
+        "/wallet/balance": {
+            "get": {
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "Find wallet balance or total balance by user",
+                "operationId": "4f31bd598ec82df05f93fa8e184d6c5c",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/GetBalanceInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Wallet balance"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/wallet/create": {
+            "post": {
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "Create a new wallet",
+                "operationId": "2c559b909dfdfabfb7b047f179823422",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewWalletInputData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Wallet created"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/wallet/deposit": {
+            "post": {
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "Make a new deposit",
+                "operationId": "7ddeed81a78aaa77c10b3a9c81dabc6d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MakeDepositInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Deposit made"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "SignupInputData": {
+                "properties": {
+                    "firstName": {
+                        "type": "string",
+                        "example": "Hector"
+                    },
+                    "lastName": {
+                        "type": "string",
+                        "example": "Bonilla"
+                    },
+                    "type": {
+                        "example": "F"
+                    },
+                    "document": {
+                        "type": "string",
+                        "example": "737.557.700-59"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "hector.bonilla@gmail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "12345678"
+                    },
+                    "level": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "GetBalanceInput": {
+                "properties": {
+                    "filterBy": {
+                        "description": "Filter balance by wallet or by user",
+                        "type": "string",
+                        "enum": [
+                            "wallet",
+                            "user"
+                        ],
+                        "example": "wallet"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "ListWalletsByUserIdInput": {
+                "properties": {
+                    "userId": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "MakeDepositInput": {
+                "properties": {
+                    "walletId": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "value": {
+                        "type": "integer",
+                        "example": 1000
+                    }
+                },
+                "type": "object"
+            },
+            "NewWalletInputData": {
+                "properties": {
+                    "userId": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Carteira 01"
+                    },
+                    "companyId": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "AuthRequest": {
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "example": "hector.bonilla@gmail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "12345678"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "User",
+            "description": "User"
+        },
+        {
+            "name": "Wallet",
+            "description": "Wallet"
+        }
+    ]
+}

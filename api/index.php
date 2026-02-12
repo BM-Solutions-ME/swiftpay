@@ -32,8 +32,8 @@ $route->post("/user/auth", "AuthController:index");
 $route->post("/company/insert", "CompanyController:insert");
 
 // Wallet
-$route->post("/wallet/all", "WalletController:all");
-$route->post("/wallet/balance","WalletController:balance");
+$route->get("/wallet/all", "WalletController:all");
+$route->get("/wallet/balance","WalletController:balance");
 $route->post("/wallet/create", "WalletController:create");
 $route->post("/wallet/deposit","WalletController:deposit");
 
