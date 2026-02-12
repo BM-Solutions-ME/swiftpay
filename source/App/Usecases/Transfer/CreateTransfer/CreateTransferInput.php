@@ -26,7 +26,12 @@ final class CreateTransferInput
         int $userPayee,
         int $walletPayer,
         int $value
-    ) {}
+    ) {
+        $this->walletPayee = $walletPayee;
+        $this->userPayee = $userPayee;
+        $this->walletPayer = $walletPayer;
+        $this->value = $value;
+    }
 
     public function getWalletPayee(): int
     {
