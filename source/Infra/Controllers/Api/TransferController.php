@@ -15,6 +15,8 @@ use Source\Infra\Repositories\UserRepository;
 use Source\Infra\Repositories\WalletRepository;
 use Source\Presentation\Http\ApiResponse;
 
+use OpenApi\Attributes as OA;
+
 final class TransferController extends Api
 {
     public function __construct()
@@ -26,6 +28,19 @@ final class TransferController extends Api
      * @param CreateTransferInput $data
      * @return void
     */
+    #[OA\Post(
+        path: "/transfer/do-transfer",
+        summary: "Make a transfer",
+        tags: ["Transfer"],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: CreateTransferInput::class)
+        ),
+        responses: [
+            new OA\Response(response: 201, description: "Transfer made"),
+            new OA\Response(response: 400, description: "Validation error")
+        ]
+    )]
     public function doTransfer(CreateTransferInput $data): void
     {
         try {

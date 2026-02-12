@@ -39,6 +39,50 @@
                 }
             }
         },
+        "/company/insert": {
+            "post": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Create a new company",
+                "operationId": "208d26958a035c8609bae7327c9d9bec",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CompanyRegisterInputData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Company created"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/ping": {
+            "get": {
+                "tags": [
+                    "Test"
+                ],
+                "summary": "Test Api",
+                "operationId": "121aab037a4e8d2ebf0512a5a2cb04fa",
+                "responses": {
+                    "200": {
+                        "description": "Api ok"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
         "/user/register": {
             "post": {
                 "tags": [
@@ -59,6 +103,33 @@
                 "responses": {
                     "201": {
                         "description": "User created"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/transfer/do-transfer": {
+            "post": {
+                "tags": [
+                    "Transfer"
+                ],
+                "summary": "Make a transfer",
+                "operationId": "1711e99b18563da43e72c3845bb7fb9b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTransferInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Transfer made"
                     },
                     "400": {
                         "description": "Validation error"
@@ -203,6 +274,33 @@
     },
     "components": {
         "schemas": {
+            "CompanyRegisterInputData": {
+                "properties": {
+                    "userId": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "publicName": {
+                        "type": "string",
+                        "example": "SwiftPay"
+                    },
+                    "legalName": {
+                        "type": "string",
+                        "example": "Test S/A"
+                    },
+                    "document": {
+                        "type": "string",
+                        "example": "46.158.757/0001-09"
+                    },
+                    "dateFoundation": {
+                        "type": "string",
+                        "example": "01/01/2026",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
             "SignupInputData": {
                 "properties": {
                     "firstName": {
@@ -231,6 +329,27 @@
                     "level": {
                         "type": "integer",
                         "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "CreateTransferInput": {
+                "properties": {
+                    "walletPayee": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "userPayee": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "walletPayer": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "value": {
+                        "type": "integer",
+                        "example": 1000
                     }
                 },
                 "type": "object"
@@ -315,6 +434,18 @@
         {
             "name": "User",
             "description": "User"
+        },
+        {
+            "name": "Company",
+            "description": "Company"
+        },
+        {
+            "name": "Test",
+            "description": "Test"
+        },
+        {
+            "name": "Transfer",
+            "description": "Transfer"
         },
         {
             "name": "Wallet",
