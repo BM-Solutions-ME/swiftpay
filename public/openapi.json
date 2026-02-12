@@ -67,22 +67,23 @@
             }
         },
         "/wallet/all": {
-            "post": {
+            "get": {
                 "tags": [
                     "Wallet"
                 ],
                 "summary": "Find all wallet's user",
-                "operationId": "f71a7d38db64774049a4f001e797ac95",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ListWalletsByUserIdInput"
-                            }
+                "operationId": "3f93ba646df90bdced5483d35ed43112",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/ListWalletsByUserIdInput"
                         }
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "Wallet's user"
@@ -118,22 +119,23 @@
             }
         },
         "/wallet/balance": {
-            "post": {
+            "get": {
                 "tags": [
                     "Wallet"
                 ],
                 "summary": "Find wallet balance or total balance by user",
-                "operationId": "d05bbd2dc7ebfb770afffc5fffb21527",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/GetBalanceInput"
-                            }
+                "operationId": "4f31bd598ec82df05f93fa8e184d6c5c",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/GetBalanceInput"
                         }
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "Wallet balance"

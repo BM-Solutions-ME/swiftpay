@@ -38,14 +38,21 @@ class WalletController extends Api
      * @param ListWalletsByUserIdInput $data
      * @return void
     */
-    #[OA\Post(
+    #[OA\Get(
         path: "/wallet/all",
         summary: "Find all wallet's user",
         tags: ["Wallet"],
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: new OA\JsonContent(ref: ListWalletsByUserIdInput::class)
-        ),
+        parameters: [
+            new OA\Parameter(
+                name: "query",
+                in: "query",
+                style: "form",
+                explode: true,
+                schema: new OA\Schema(
+                    ref: "#/components/schemas/ListWalletsByUserIdInput"
+                )
+            )
+        ],
         responses: [
             new OA\Response(response: 200, description: "Wallet's user"),
             new OA\Response(response: 400, description: "Validation error")
@@ -111,14 +118,21 @@ class WalletController extends Api
      * @param GetBalanceInput $data
      * @return void
      */
-    #[OA\Post(
+    #[OA\Get(
         path: "/wallet/balance",
         summary: "Find wallet balance or total balance by user",
         tags: ["Wallet"],
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: new OA\JsonContent(ref: GetBalanceInput::class)
-        ),
+        parameters: [
+            new OA\Parameter(
+                name: "query",
+                in: "query",
+                style: "form",
+                explode: true,
+                schema: new OA\Schema(
+                    ref: "#/components/schemas/GetBalanceInput"
+                )
+            )
+        ],
         responses: [
             new OA\Response(response: 200, description: "Wallet balance"),
             new OA\Response(response: 400, description: "Validation error")
