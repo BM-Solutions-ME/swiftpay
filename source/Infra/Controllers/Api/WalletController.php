@@ -42,6 +42,7 @@ class WalletController extends Api
         path: "/wallet/all",
         summary: "Find all wallet's user",
         tags: ["Wallet"],
+        security: [["token" => []]],
         parameters: [
             new OA\Parameter(
                 name: "query",
@@ -86,6 +87,7 @@ class WalletController extends Api
         path: "/wallet/store/{walletId}",
         summary: "Get wallet by id",
         tags: ["Wallet"],
+        security: [["token" => []]],
         parameters: [
             new OA\Parameter(
                 name: "walletId",
@@ -122,6 +124,7 @@ class WalletController extends Api
         path: "/wallet/balance",
         summary: "Find wallet balance or total balance by user",
         tags: ["Wallet"],
+        security: [["token" => []]],
         parameters: [
             new OA\Parameter(
                 name: "query",
@@ -163,6 +166,7 @@ class WalletController extends Api
         path: "/wallet/create",
         summary: "Create a new wallet",
         tags: ["Wallet"],
+        security: [["token" => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: NewWalletInputData::class)
@@ -198,6 +202,7 @@ class WalletController extends Api
         path: "/wallet/deposit",
         summary: "Make a new deposit",
         tags: ["Wallet"],
+        security: [["token" => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: MakeDepositInput::class)

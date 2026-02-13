@@ -32,6 +32,7 @@ final class TransferController extends Api
         path: "/transfer/do-transfer",
         summary: "Make a transfer",
         tags: ["Transfer"],
+        security: [["token" => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: CreateTransferInput::class)
