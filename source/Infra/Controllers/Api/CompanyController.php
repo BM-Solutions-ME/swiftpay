@@ -28,6 +28,7 @@ final class CompanyController extends Api
         path: "/company/insert",
         summary: "Create a new company",
         tags: ["Company"],
+        security: [["token" => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: CompanyRegisterInputData::class)

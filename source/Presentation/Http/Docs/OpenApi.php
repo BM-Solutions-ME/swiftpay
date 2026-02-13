@@ -15,6 +15,13 @@ use OpenApi\Attributes as OA;
     url: "http://localhost/api",
     description: "Local server"
 )]
+#[OA\SecurityScheme(
+    securityScheme: "token",
+    type: "apiKey",
+    in: "header",
+    name: "token",
+    description: "JWT token sent via 'token' header"
+)]
 
 /**
  * #[OA\Server(url: "http://localhost/api", description: "Local server")]

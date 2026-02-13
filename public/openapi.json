@@ -63,7 +63,12 @@
                     "400": {
                         "description": "Validation error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/ping": {
@@ -134,7 +139,12 @@
                     "400": {
                         "description": "Validation error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/wallet/all": {
@@ -162,7 +172,12 @@
                     "400": {
                         "description": "Validation error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/wallet/store/{walletId}": {
@@ -186,7 +201,12 @@
                     "200": {
                         "description": "Wallet data"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/wallet/balance": {
@@ -214,7 +234,12 @@
                     "400": {
                         "description": "Validation error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/wallet/create": {
@@ -241,7 +266,12 @@
                     "400": {
                         "description": "Validation error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/wallet/deposit": {
@@ -268,7 +298,12 @@
                     "400": {
                         "description": "Validation error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         }
     },
@@ -427,6 +462,14 @@
                     }
                 },
                 "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "token": {
+                "type": "apiKey",
+                "description": "JWT token sent via 'token' header",
+                "name": "token",
+                "in": "header"
             }
         }
     },
