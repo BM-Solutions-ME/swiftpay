@@ -13,9 +13,14 @@ final class MCPController
         private MCPServer $server
     ) {}
 
-    public function handle(): void
+    /**
+     * @param array<string, mixed>|null $request
+     */
+    public function handle(?array $request = null): void
     {
-        $request = json_decode(file_get_contents('php://input'), true);
+        if ($request === null) {
+            $request = json_decode(file_get_contents('php://input'), true);
+        }
 
         $tool = $request['tool'] ?? '';
         $input = $request['input'] ?? [];

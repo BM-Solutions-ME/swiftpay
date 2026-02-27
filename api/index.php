@@ -8,6 +8,9 @@ require __DIR__ . "/../vendor/autoload.php";
 
 use Source\Framework\Boot\App\AppBootstrap;
 use Source\Framework\Support\Router\Router;
+use Source\Infra\MCP\MCPController;
+use Source\Infra\MCP\MCPServer;
+use Source\Infra\MCP\ToolRegistry;
 
 AppBootstrap::init();
 
@@ -41,6 +44,13 @@ $route->get("/wallet/store/{walletId}", "WalletController:store");
 
 // Transfer
 $route->post("/transfer/do-transfer","TransferController:doTransfer");
+
+// MCP
+$route->post("/mcp", function (array $data, Router $router) {
+    $server = new MCPServer(new ToolRegistry());
+    $controller = new MCPController($server);
+    $controller->handle($data);
+});
 
 /**
  * ROUTE
