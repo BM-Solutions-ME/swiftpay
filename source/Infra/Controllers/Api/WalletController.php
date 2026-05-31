@@ -8,6 +8,8 @@ use Source\App\Usecases\Wallet\GetBalance\GetBalanceInput;
 use Source\App\Usecases\Wallet\GetBalance\GetBalanceUsecase;
 use Source\App\Usecases\Wallet\GetWalletById\GetWalletByIdInput;
 use Source\App\Usecases\Wallet\GetWalletById\GetWalletByIdUsecase;
+use Source\App\Usecases\Wallet\GetWalletByName\GetWalletByNameInput;
+use Source\App\Usecases\Wallet\GetWalletByName\GetWalletByNameUsecase;
 use Source\App\Usecases\Wallet\ListWalletsByUserId\ListWalletsByUserIdUsecase;
 use Source\App\Usecases\Wallet\ListWalletsByUserId\ListWalletsByUserIdInput;
 use Source\App\Usecases\Wallet\MakeDeposit\MakeDepositInput;
@@ -20,6 +22,7 @@ use Source\Infra\Repositories\WalletRepository;
 use Source\Presentation\Http\ApiResponse;
 
 use OpenApi\Attributes as OA;
+use Throwable;
 
 /**
  *
@@ -107,6 +110,49 @@ class WalletController extends Api
             $wallet["balance"] = toCurrency($wallet["balance"]);
             ApiResponse::success($wallet);
         } catch (\Throwable $e) {
+            $exception = MapExceptionToResponse::map($e);
+            ApiResponse::error(
+                $exception->message,
+                $exception->status,
+                $exception->details
+            );
+        }
+    }
+
+    /**
+     * @param GetWalletByNameInput $data
+     * @return void
+    */
+    #[OA\Get(
+        path: "/wallet/filter-by-name",
+        summary: "Find wallet's user by name",
+        tags: ["Wallet"],
+        security: [["token" => []]],
+        parameters: [
+            new OA\Parameter(
+                name: "query",
+                in: "query",
+                style: "form",
+                explode: true,
+                schema: new OA\Schema(
+                    ref: "#/components/schemas/GetWalletByNameInput"
+                )
+            )
+        ],
+        responses: [
+            new OA\Response(response: 200, description: "Wallet's user searched"),
+            new OA\Response(response: 400, description: "Validation error")
+        ]
+    )]
+    public function filterByName(GetWalletByNameInput $data): void
+    {
+        try {
+            if (empty($data->getUserId())) {
+                $data->setUserId((int) $this->user->getId());
+            }
+            $walletSearched = (new GetWalletByNameUsecase(new WalletRepository()))->handle($data);
+            ApiResponse::success($walletSearched);
+        } catch (Throwable $e) {
             $exception = MapExceptionToResponse::map($e);
             ApiResponse::error(
                 $exception->message,

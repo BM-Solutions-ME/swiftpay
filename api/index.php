@@ -38,6 +38,7 @@ $route->post("/wallet/create", "WalletController:create");
 $route->post("/wallet/deposit","WalletController:deposit");
 
 $route->get("/wallet/store/{walletId}", "WalletController:store");
+$route->get("/wallet/filter-by-name", "WalletController:filterByName");
 
 // Transfer
 $route->post("/transfer/do-transfer","TransferController:doTransfer");
