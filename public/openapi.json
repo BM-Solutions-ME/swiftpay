@@ -209,6 +209,39 @@
                 ]
             }
         },
+        "/wallet/filter-by-name": {
+            "get": {
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "Find wallet's user by name",
+                "operationId": "d0df2c3d7653b17be4195b562498698d",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/GetWalletByNameInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Wallet's user searched"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/wallet/balance": {
             "get": {
                 "tags": [
@@ -404,6 +437,20 @@
                         "type": "integer",
                         "example": 1,
                         "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "GetWalletByNameInput": {
+                "properties": {
+                    "userId": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "walletTitleSearch": {
+                        "type": "string",
+                        "example": "Carteira 01"
                     }
                 },
                 "type": "object"

@@ -58,6 +58,30 @@ final class WalletRepository implements WalletRepositoryInterface
 
     /**
      * @param int $userId
+     * @param string $walletTitleSearch
+     * @return array<int, Wallet>
+    */
+    public function getByName(int $userId, string $walletTitleSearch): array
+    {
+        $repo = new RepositoryStrategy(new MariaDbRepositoryHandler(Connect::getInstance()));
+        /** @var array<int, Wallet> $wallets */
+        $wallets = $repo->query(Wallet::class)
+            ->where("user_id", "=", $userId)
+            ->andWhere("title", "LIKE" , "%{$walletTitleSearch}%")
+            ->get(true);
+
+        $response = [];
+        if (!empty($wallets)) {
+            foreach ($wallets as $wallet) {
+                $response[] = $wallet;
+            }
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param int $userId
      * @return int
      */
     public function balanceAll(int $userId): int
