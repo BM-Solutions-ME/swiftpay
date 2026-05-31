@@ -148,7 +148,7 @@ class WalletController extends Api
     {
         try {
             if (empty($data->getUserId())) {
-                $data->setUserId($this->user->getId());
+                $data->setUserId((int) $this->user->getId());
             }
             $walletSearched = (new GetWalletByNameUsecase(new WalletRepository()))->handle($data);
             ApiResponse::success($walletSearched);

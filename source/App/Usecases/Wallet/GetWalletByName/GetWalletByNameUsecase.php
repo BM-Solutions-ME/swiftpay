@@ -23,7 +23,7 @@ final class GetWalletByNameUsecase
     public function handle(GetWalletByNameInput $input): array
     {
         /** @var array<int, Wallet> $walletSearched */
-        $walletSearched = $this->repository->getByName($input->getUserId(), $input->getWalletTitleSearch());
+        $walletSearched = $this->repository->getByName((int) $input->getUserId(), $input->getWalletTitleSearch());
         return (new GetWalletByNameOutput($walletSearched))->toArray();
     }
 }
