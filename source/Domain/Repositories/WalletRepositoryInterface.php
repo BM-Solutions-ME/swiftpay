@@ -39,4 +39,11 @@ interface WalletRepositoryInterface
      * @return Wallet
     */
     public function decreaseBalance(int $walletId, int $value): Wallet;
+
+    /**
+     * @param int $userId
+     * @param string $walletTitleSearch
+     * @return array<int, Wallet>
+    */
+    public function getByName(int $userId, string $walletTitleSearch): array;
 }
