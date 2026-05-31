@@ -35,7 +35,7 @@
       "coffeecode/cropper": "2.0.*",
       "coffeecode/optimizer": "2.1.*",
       "coffeecode/paginator": "2.0.*",
-      "firebase/php-jwt": "v6.4.0",
+      "firebase/php-jwt": "v7.0.5",
       "monolog/monolog": "3.3.*",
       "php-amqplib/php-amqplib": "v3.6.0",
       "vlucas/phpdotenv": "^5.6",
