@@ -403,6 +403,10 @@
             },
             "CreateTransferInput": {
                 "properties": {
+                    "idempotencyKey": {
+                        "type": "string",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    },
                     "walletPayee": {
                         "type": "integer",
                         "example": 2
@@ -427,11 +431,11 @@
                     "filterBy": {
                         "description": "Filter balance by wallet or by user",
                         "type": "string",
+                        "example": "wallet",
                         "enum": [
                             "wallet",
                             "user"
-                        ],
-                        "example": "wallet"
+                        ]
                     },
                     "id": {
                         "type": "integer",
