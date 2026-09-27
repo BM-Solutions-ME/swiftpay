@@ -39,6 +39,10 @@ final class ExecuteTransferUsecase
             throw new Exception("Você não pode realizar transferências para sua própria carteira.");
         }
 
+        if ($payee->getId() !== $walletPayee->getUserId()) {
+            throw new Exception("A carteira de origem da transferência deve obrigatoriamente ser de sua titularidade.");
+        }
+
         $executeTransfer = (new CreateTransferUsecase($this->transferRepo))->handle($input);
 
         (new DecreaseBalanceUsecase($this->walletRepo))->handle((int) $walletPayer->getId(), $value);
