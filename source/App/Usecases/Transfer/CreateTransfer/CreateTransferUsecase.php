@@ -16,7 +16,8 @@ final class CreateTransferUsecase
      */
     public function __construct(
         private readonly TransferRepositoryInterface $repository
-    ) {}
+    ) {
+    }
 
     /**
      * @param CreateTransferInput $input
@@ -24,11 +25,16 @@ final class CreateTransferUsecase
      */
     public function handle(CreateTransferInput $input): CreateTransferOutput
     {
-        $transfer = new Transfer;
+        $transfer = new Transfer();
+        $transfer->setIdempotencyKey($input->getIdempotencyKey());
         $transfer->setWalletReceiver((int) $input->getWalletPayee());
         $transfer->setWalletSender((int) $input->getWalletPayer());
         $transfer->setAmount($input->getValue());
         $transfer->setStatus(TransferStatusEnum::COMPLETED);
+
+        if (!$this->repository->idempotencyKeyValidation($transfer)) {
+            throw new Exception("Esta transferência já está sendo processada. Por favor, aguarde o resultado final antes de tentar novamente.");
+        }
 
         $createTransfer = $this->repository->execute($transfer);
 

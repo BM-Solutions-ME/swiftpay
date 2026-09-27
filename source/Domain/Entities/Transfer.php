@@ -14,6 +14,8 @@ final class Transfer implements PersistableEntityInterface
 {
     #[Column(name: "id", type: "int", primaryKey: true)]
     private int $id;
+    #[Column(name: "idempotency_key", type: "string", required: true, requiredMessage: "A chave de identificação de transferência não foi informada.")]
+    private String $idempotencyKey;
     #[Column(name: "wallet_sender", type: "int", required: true, requiredMessage: "Informe a carteira de onde o saldo será transferido.")]
     private int $walletSender;
     #[Column(name: "wallet_receiver", type: "int", required: true, requiredMessage: "Informa a carteira que receberá a transferência.")]
@@ -35,6 +37,16 @@ final class Transfer implements PersistableEntityInterface
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    public function getIdempotencyKey(): string
+    {
+        return $this->idempotencyKey;
+    }
+
+    public function setIdempotencyKey(string $idempotencyKey): void
+    {
+        $this->idempotencyKey = $idempotencyKey;
     }
 
     public function getWalletSender(): int
